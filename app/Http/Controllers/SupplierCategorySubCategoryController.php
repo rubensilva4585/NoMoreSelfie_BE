@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Supplier_Category_SubCategory;
+use App\Http\Requests\StoreSupplier_Category_SubCategoryRequest;
+use App\Http\Requests\UpdateSupplier_Category_SubCategoryRequest;
+
+class SupplierCategorySubCategoryController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreSupplier_Category_SubCategoryRequest $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Supplier_Category_SubCategory $supplier_Category_SubCategory)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Supplier_Category_SubCategory $supplier_Category_SubCategory)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateSupplier_Category_SubCategoryRequest $request, Supplier_Category_SubCategory $supplier_Category_SubCategory)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Supplier_Category_SubCategory $supplier_Category_SubCategory)
+    {
+        //
+    }
+}
