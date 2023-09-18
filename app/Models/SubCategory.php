@@ -14,7 +14,7 @@ class SubCategory extends Model
         'name',
     ];
 
-    public function district()
+    public function category()
     {
         return $this->belongsTo(Category::class, 'id_category');
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Request;
 use App\Http\Requests\StoreRequestRequest;
 use App\Http\Requests\UpdateRequestRequest;
+use App\Models\Client;
 
 class RequestController extends Controller
 {
@@ -13,7 +14,14 @@ class RequestController extends Controller
      */
     public function index()
     {
-        //
+        try
+        {
+            return response()->json(Request::all(), 200);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 
     /**
@@ -29,7 +37,9 @@ class RequestController extends Controller
      */
     public function store(StoreRequestRequest $request)
     {
-        //
+        $district = Request::create($request->all());
+        return response()->json($district, 201);
+
     }
 
     /**
@@ -37,7 +47,14 @@ class RequestController extends Controller
      */
     public function show(Request $request)
     {
-        //
+        try
+        {
+            return response()->json($request, 200);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 
     /**
@@ -53,7 +70,16 @@ class RequestController extends Controller
      */
     public function update(UpdateRequestRequest $updateRequest, Request $request)
     {
-        //
+
+        try
+        {
+            $request->update($updateRequest->all());
+            return response()->json($request, 200);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 
     /**
@@ -61,6 +87,14 @@ class RequestController extends Controller
      */
     public function destroy(Request $request)
     {
-        //
+        try
+        {
+            $request->delete();
+            return response()->json(['message' => 'Deleted'], 205);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 }

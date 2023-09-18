@@ -13,7 +13,11 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            return response()->json(Client::all(), 200);
+            } catch (Exception $exception) {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 
     /**
@@ -29,7 +33,8 @@ class ClientController extends Controller
      */
     public function store(StoreClientRequest $request)
     {
-        //
+        $district = Client::create($request->all());
+        return response()->json($district, 201);
     }
 
     /**
@@ -37,7 +42,11 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        //
+        try {
+            return response()->json($client, 200);
+            } catch (Exception $exception) {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 
     /**
@@ -53,7 +62,16 @@ class ClientController extends Controller
      */
     public function update(UpdateClientRequest $request, Client $client)
     {
-        //
+
+        try
+        {
+            $client->update($request->all());
+            return response()->json($client, 200);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 
     /**
@@ -61,6 +79,11 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        //
+        try {
+            $client->delete();
+            return response()->json(['message' => 'Deleted'], 205);
+            } catch (Exception $exception) {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 }

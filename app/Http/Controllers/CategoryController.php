@@ -13,7 +13,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            return response()->json(Category::all(), 200);
+            } catch (Exception $exception) {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 
     /**
@@ -29,7 +33,8 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        $district = Category::create($request->all());
+        return response()->json($district, 201);
     }
 
     /**
@@ -37,7 +42,11 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        try {
+            return response()->json($category, 200);
+            } catch (Exception $exception) {
+            return response()->json(['error' => $exception], 500);
+            }
     }
 
     /**
@@ -53,7 +62,15 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        try
+        {
+            $category->update($request->all());
+            return response()->json($category, 200);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 
     /**
@@ -61,6 +78,14 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        try
+        {
+            $category->delete();
+            return response()->json(['message' => 'Deleted'], 205);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 }

@@ -13,7 +13,11 @@ class SubCategoryController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            return response()->json(SubCategory::all(), 200);
+            } catch (Exception $exception) {
+            return response()->json(['error' => $exception], 500);
+            }
     }
 
     /**
@@ -29,7 +33,8 @@ class SubCategoryController extends Controller
      */
     public function store(StoreSubCategoryRequest $request)
     {
-        //
+        $district = SubCategory::create($request->all());
+        return response()->json($district, 201);
     }
 
     /**
@@ -37,7 +42,14 @@ class SubCategoryController extends Controller
      */
     public function show(SubCategory $subCategory)
     {
-        //
+        try
+        {
+            return response()->json($subCategory, 200);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 
     /**
@@ -53,7 +65,15 @@ class SubCategoryController extends Controller
      */
     public function update(UpdateSubCategoryRequest $request, SubCategory $subCategory)
     {
-        //
+        try
+        {
+            $subCategory->update($request->all());
+            return response()->json($subCategory, 200);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 
     /**
@@ -61,6 +81,14 @@ class SubCategoryController extends Controller
      */
     public function destroy(SubCategory $subCategory)
     {
-        //
+        try
+        {
+            $subCategory->delete();
+            return response()->json(['message' => 'Deleted'], 205);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 }

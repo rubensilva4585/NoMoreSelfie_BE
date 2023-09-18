@@ -7,6 +7,7 @@ use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierCategorySubCategoryController;
 use App\Http\Controllers\SocialController;
+use App\Models\Client;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,12 @@ use App\Http\Controllers\SocialController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::apiResource('clients', ClientController::class);
+Route::apiResource('requests', RequestController::class);
+Route::apiResource('categories', CategoryController::class);
+Route::apiResource('subcategories', SubCategoryController::class);
+
 Route::resource('districts', DistrictController::class);
 Route::resource('suppliers', SupplierController::class);
 Route::resource('supplier-category-subcategories', SupplierCategorySubCategoryController::class);
