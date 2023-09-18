@@ -3,11 +3,16 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\RequestController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SubCategoryController;
+
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierCategorySubCategoryController;
 use App\Http\Controllers\SocialController;
-use App\Models\Client;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,10 +29,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('clients', ClientController::class);
-Route::apiResource('requests', RequestController::class);
-Route::apiResource('categories', CategoryController::class);
-Route::apiResource('subcategories', SubCategoryController::class);
+Route::resource('clients', ClientController::class);
+Route::resource('requests', RequestController::class);
+Route::resource('categories', CategoryController::class);
+Route::resource('subcategories', SubCategoryController::class);
 
 Route::resource('districts', DistrictController::class);
 Route::resource('suppliers', SupplierController::class);

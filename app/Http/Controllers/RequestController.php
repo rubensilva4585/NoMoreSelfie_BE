@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Request;
 use App\Http\Requests\StoreRequestRequest;
 use App\Http\Requests\UpdateRequestRequest;
-use App\Models\Client;
 
 class RequestController extends Controller
 {
