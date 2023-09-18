@@ -13,7 +13,14 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        //
+        try
+        {
+            return response()->json(Supplier::all(), 200);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 
     /**
@@ -29,7 +36,8 @@ class SupplierController extends Controller
      */
     public function store(StoresupplierRequest $request)
     {
-        //
+        $supplier = Supplier::create($request->all());
+        return response()->json($district, 201);
     }
 
     /**
@@ -37,7 +45,14 @@ class SupplierController extends Controller
      */
     public function show(supplier $supplier)
     {
-        //
+        try
+        {
+            return response()->json($supplier, 200);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 
     /**
@@ -53,7 +68,15 @@ class SupplierController extends Controller
      */
     public function update(UpdatesupplierRequest $request, supplier $supplier)
     {
-        //
+        try
+        {
+            $supplier->update($request->all());
+            return response()->json($supplier, 200);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 
     /**
@@ -61,6 +84,14 @@ class SupplierController extends Controller
      */
     public function destroy(supplier $supplier)
     {
-        //
+        try
+        {
+            $supplier->delete();
+            return response()->json(['message' => 'Deleted'], 205);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 }

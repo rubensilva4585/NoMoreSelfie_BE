@@ -23,6 +23,8 @@ class SubCategorySeeder extends Seeder
             'Bebés' => [
                 'Sessão Newborn',
                 'Ensaio de Gravidez',
+                'Chá Revelação',
+                'Baby Shower',
                 'Álbum de Bebê',
                 'Batizado',
             ],

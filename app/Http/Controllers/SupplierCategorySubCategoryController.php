@@ -13,7 +13,14 @@ class SupplierCategorySubCategoryController extends Controller
      */
     public function index()
     {
-        //
+        try
+        {
+            return response()->json(District::all(), 200);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 
     /**
@@ -29,7 +36,8 @@ class SupplierCategorySubCategoryController extends Controller
      */
     public function store(StoreSupplier_Category_SubCategoryRequest $request)
     {
-        //
+        $supplier_Category_SubCategory = Supplier_Category_SubCategory::create($request->all());
+        return response()->json($supplier_Category_SubCategory, 201);
     }
 
     /**
@@ -37,7 +45,14 @@ class SupplierCategorySubCategoryController extends Controller
      */
     public function show(Supplier_Category_SubCategory $supplier_Category_SubCategory)
     {
-        //
+        try
+        {
+            return response()->json($supplier_Category_SubCategory, 200);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 
     /**
@@ -53,7 +68,15 @@ class SupplierCategorySubCategoryController extends Controller
      */
     public function update(UpdateSupplier_Category_SubCategoryRequest $request, Supplier_Category_SubCategory $supplier_Category_SubCategory)
     {
-        //
+        try
+        {
+            $supplier_Category_SubCategory->update($request->all());
+            return response()->json($supplier_Category_SubCategory, 200);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 
     /**
@@ -61,6 +84,14 @@ class SupplierCategorySubCategoryController extends Controller
      */
     public function destroy(Supplier_Category_SubCategory $supplier_Category_SubCategory)
     {
-        //
+        try
+        {
+            $supplier_Category_SubCategory->delete();
+            return response()->json(['message' => 'Deleted'], 205);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 }

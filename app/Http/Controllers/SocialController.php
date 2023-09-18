@@ -13,7 +13,14 @@ class SocialController extends Controller
      */
     public function index()
     {
-        //
+        try
+        {
+            return response()->json(Social::all(), 200);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 
     /**
@@ -29,7 +36,8 @@ class SocialController extends Controller
      */
     public function store(StoreSocialRequest $request)
     {
-        //
+        $social = Social::create($request->all());
+        return response()->json($social, 201);
     }
 
     /**
@@ -37,7 +45,14 @@ class SocialController extends Controller
      */
     public function show(Social $social)
     {
-        //
+        try
+        {
+            return response()->json($social, 200);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 
     /**
@@ -53,7 +68,15 @@ class SocialController extends Controller
      */
     public function update(UpdateSocialRequest $request, Social $social)
     {
-        //
+        try
+        {
+            $social->update($request->all());
+            return response()->json($social, 200);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 
     /**
@@ -61,6 +84,14 @@ class SocialController extends Controller
      */
     public function destroy(Social $social)
     {
-        //
+        try
+        {
+            $social->delete();
+            return response()->json(['message' => 'Deleted'], 205);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 }
