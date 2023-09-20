@@ -19,10 +19,8 @@ return new class extends Migration
             $table->decimal('endPrice', 5, 2);
             $table->timestamps();
 
-            // Definindo a primary key composta pelos três IDs
             $table->primary(['id_supplier', 'id_category', 'id_subCategory']);
 
-            // Definindo as chaves estrangeiras
             $table->foreign('id_supplier')->references('id')->on('suppliers');
             $table->foreign('id_category')->references('id')->on('categories');
             $table->foreign('id_subCategory')->references('id')->on('sub_categories');

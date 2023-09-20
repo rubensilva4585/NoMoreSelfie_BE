@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Supplier_Category_SubCategory;
 
 class SupplierCategorySubCategorySeeder extends Seeder
 {
@@ -12,6 +13,7 @@ class SupplierCategorySubCategorySeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Supplier_Category_SubCategory::factory()->count(50)->create();
+
     }
 }

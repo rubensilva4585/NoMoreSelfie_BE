@@ -17,7 +17,14 @@ class SocialFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'id_supplier' => function ()
+            {    
+                return \App\Models\Supplier::inRandomOrder()->first()->id;
+            },
+            'website' => $this->faker->url,
+            'facebook' => $this->faker->url,
+            'instagram' => $this->faker->url,
+            'linkedin' => $this->faker->url,
         ];
     }
 }

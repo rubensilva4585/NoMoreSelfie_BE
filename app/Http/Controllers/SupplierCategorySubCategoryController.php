@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Supplier_Category_SubCategory;
+use App\Models\District;
 use App\Http\Requests\StoreSupplier_Category_SubCategoryRequest;
 use App\Http\Requests\UpdateSupplier_Category_SubCategoryRequest;
 
@@ -15,7 +16,7 @@ class SupplierCategorySubCategoryController extends Controller
     {
         try
         {
-            return response()->json(District::all(), 200);
+            return response()->json(Supplier_Category_SubCategory::all(), 200);
         }
         catch (Exception $exception)
         {
