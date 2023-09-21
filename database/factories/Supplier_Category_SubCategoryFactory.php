@@ -17,19 +17,23 @@ class Supplier_Category_SubCategoryFactory extends Factory
      */
     public function definition(): array
     {
+        $supplier = \App\Models\Supplier::inRandomOrder()->first();
+        $category = \App\Models\Category::inRandomOrder()->first();
+        $subCategory = \App\Models\SubCategory::where('id_category', $category->id)->inRandomOrder()->first();
+        $existingRecord = Supplier_Category_SubCategory::where([
+            'id_supplier' => $supplier->id,
+            'id_category' => $category->id,
+            'id_subCategory' => $subCategory->id,
+        ])->first();
+        if ($existingRecord)
+        {
+            return [];
+        }
+
         return [
-            'id_supplier' => function ()
-            {
-                return \App\Models\Supplier::inRandomOrder()->first()->id;
-            },
-            'id_category' => function ()
-            {
-                return \App\Models\Category::inRandomOrder()->first()->id;
-            },
-            'id_subCategory' => function ()
-            {
-                return \App\Models\SubCategory::inRandomOrder()->first()->id;
-            },
+            'id_supplier' => $supplier->id,
+            'id_category' => $category->id,
+            'id_subCategory' => $subCategory->id,
             'startPrice' => $this->faker->randomFloat(2, 10, 1000),
             'endPrice' => $this->faker->randomFloat(2, 10, 1000),
         ];
