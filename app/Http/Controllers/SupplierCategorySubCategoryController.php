@@ -29,8 +29,14 @@ class SupplierCategorySubCategoryController extends Controller
      */
     public function store(StoreSupplier_Category_SubCategoryRequest $request)
     {
-        $supplier_Category_SubCategory = Supplier_Category_SubCategory::create($request->all());
-        return response()->json($supplier_Category_SubCategory, 201);
+        try {
+            $supplier_Category_SubCategory = Supplier_Category_SubCategory::create($request->all());
+            return response()->json($supplier_Category_SubCategory, 201);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 
     /**

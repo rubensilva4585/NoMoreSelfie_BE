@@ -8,7 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Supplier_Category_SubCategory extends Model
 {
     use HasFactory;
-
+    protected $fillable = [
+        'id_supplier',
+        'id_category',
+        'id_subCategory',
+        'startPrice',
+        'endPrice',
+    ];
 
     public function supplier()
     {
@@ -24,7 +30,7 @@ class Supplier_Category_SubCategory extends Model
     {
         return $this->belongsTo(SubCategory::class, 'id_subCategory');
     }
-    
+
     public function supplier_Category_SubCategory()
     {
         return $this->hasMany(Supplier_Category_SubCategory::class);

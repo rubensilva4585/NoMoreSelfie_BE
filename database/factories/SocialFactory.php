@@ -14,17 +14,28 @@ class SocialFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    // protected $model = \App\Models\Social::class;
+
+    private $selectedSuppliers = [];
+
     public function definition(): array
     {
-        return [
-            'id_supplier' => function ()
-            {    
-                return \App\Models\Supplier::inRandomOrder()->first()->id;
-            },
-            'website' => $this->faker->url,
-            'facebook' => $this->faker->url,
-            'instagram' => $this->faker->url,
-            'linkedin' => $this->faker->url,
-        ];
+        $supplier = \App\Models\Supplier::inRandomOrder()
+            ->whereNotIn('id', $this->selectedSuppliers)
+            ->first();
+
+        if ($supplier) {
+            $this->selectedSuppliers[] = $supplier->id;
+            return [
+                'id_supplier' => $supplier->id,
+                'website' => $this->faker->url,
+                'facebook' => $this->faker->url,
+                'instagram' => $this->faker->url,
+                'linkedin' => $this->faker->url,
+            ];
+        } else {
+            // Handle the case where there are not enough unique suppliers.
+            return [];
+        }
     }
 }

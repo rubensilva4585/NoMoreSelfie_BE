@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('socials', function (Blueprint $table) {
-            $table->id();
             $table->unsignedBigInteger('id_supplier');
             $table->string('website')->nullable();
             $table->string('facebook')->nullable();
@@ -20,6 +19,7 @@ return new class extends Migration
             $table->string('linkedin')->nullable();
             $table->timestamps();
 
+            $table->primary('id_supplier');
             $table->foreign('id_supplier')->references('id')->on('suppliers');
         });
     }

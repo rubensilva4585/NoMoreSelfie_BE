@@ -15,9 +15,9 @@ class SubCategoryController extends Controller
     {
         try {
             return response()->json(SubCategory::all(), 200);
-            } catch (Exception $exception) {
+        } catch (Exception $exception) {
             return response()->json(['error' => $exception], 500);
-            }
+        }
     }
 
     /**
@@ -65,14 +65,7 @@ class SubCategoryController extends Controller
      */
     public function destroy(SubCategory $subCategory)
     {
-        try
-        {
             $subCategory->delete();
             return response()->json(['message' => 'Deleted'], 205);
-        }
-        catch (Exception $exception)
-        {
-            return response()->json(['error' => $exception], 500);
-        }
     }
 }
