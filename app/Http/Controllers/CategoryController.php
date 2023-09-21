@@ -25,8 +25,8 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        $district = Category::create($request->all());
-        return response()->json($district, 201);
+        $category = Category::create($request->all());
+        return response()->json($category, 201);
     }
 
     /**
