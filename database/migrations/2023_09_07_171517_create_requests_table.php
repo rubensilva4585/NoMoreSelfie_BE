@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('address', 32)->nullable()->default(null);
             $table->longText('description')->nullable()->default(null);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('id_client')->references('id')->on('clients');
             $table->foreign('id_supplier')->references('id')->on('suppliers');

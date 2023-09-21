@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('startPrice', 5, 2);
             $table->decimal('endPrice', 5, 2);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->primary(['id_supplier', 'id_category', 'id_subCategory']);
 

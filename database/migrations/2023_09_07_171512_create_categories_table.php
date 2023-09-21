@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name', 32)->unique();
             $table->boolean('inPerson')->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

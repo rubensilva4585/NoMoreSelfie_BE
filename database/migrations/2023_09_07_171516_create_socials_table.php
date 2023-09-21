@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('instagram')->nullable();
             $table->string('linkedin')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->primary('id_supplier');
             $table->foreign('id_supplier')->references('id')->on('suppliers');
