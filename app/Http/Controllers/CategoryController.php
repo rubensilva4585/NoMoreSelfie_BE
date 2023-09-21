@@ -15,17 +15,9 @@ class CategoryController extends Controller
     {
         try {
             return response()->json(Category::all(), 200);
-            } catch (Exception $exception) {
+        } catch (Exception $exception) {
             return response()->json(['error' => $exception], 500);
         }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -44,17 +36,9 @@ class CategoryController extends Controller
     {
         try {
             return response()->json($category, 200);
-            } catch (Exception $exception) {
+        } catch (Exception $exception) {
             return response()->json(['error' => $exception], 500);
-            }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Category $category)
-    {
-        //
+        }
     }
 
     /**

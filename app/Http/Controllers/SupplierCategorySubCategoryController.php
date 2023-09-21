@@ -25,14 +25,6 @@ class SupplierCategorySubCategoryController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreSupplier_Category_SubCategoryRequest $request)
@@ -54,14 +46,6 @@ class SupplierCategorySubCategoryController extends Controller
         {
             return response()->json(['error' => $exception], 500);
         }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Supplier_Category_SubCategory $supplier_Category_SubCategory)
-    {
-        //
     }
 
     /**

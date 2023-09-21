@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\supplier;
+use App\Models\District;
 use App\Http\Requests\StoresupplierRequest;
 use App\Http\Requests\UpdatesupplierRequest;
 
@@ -24,20 +25,16 @@ class SupplierController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoresupplierRequest $request)
     {
-        $supplier = Supplier::create($request->all());
-        return response()->json($district, 201);
+        $district = District::findOrFail($request->input('id_district'));
+        $supplier = new Supplier($request->all());
+        $supplier->district()->associate($district);
+        $supplier->save();
+
+        return response()->json($supplier, 201);
     }
 
     /**
@@ -56,25 +53,19 @@ class SupplierController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(supplier $supplier)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdatesupplierRequest $request, supplier $supplier)
     {
-        try
-        {
+        try {
+            $districtId = $request->input('id_district');
+            $district = District::findOrFail($districtId);
             $supplier->update($request->all());
+            $supplier->district()->associate($district);
+            $supplier->save();
+
             return response()->json($supplier, 200);
-        }
-        catch (Exception $exception)
-        {
+        } catch (Exception $exception) {
             return response()->json(['error' => $exception], 500);
         }
     }

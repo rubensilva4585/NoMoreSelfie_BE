@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('districts', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
+            $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

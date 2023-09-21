@@ -36,7 +36,7 @@ class DistrictSeeder extends Seeder
 
         foreach ($districts as $district) {
             DB::table('districts')->insert([
-                'nome' => $district,
+                'name' => $district,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

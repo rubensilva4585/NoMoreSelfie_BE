@@ -29,12 +29,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('clients', ClientController::class);
-Route::resource('requests', RequestController::class);
-Route::resource('categories', CategoryController::class);
-Route::resource('subcategories', SubCategoryController::class);
+Route::apiResource('clients', ClientController::class);
+Route::apiResource('requests', RequestController::class);
+Route::apiResource('categories', CategoryController::class);
+Route::apiResource('subcategories', SubCategoryController::class);
 
-Route::resource('districts', DistrictController::class);
-Route::resource('suppliers', SupplierController::class);
-Route::resource('supplier-category-subcategories', SupplierCategorySubCategoryController::class);
-Route::resource('socials', SocialController::class);
+Route::apiResource('districts', DistrictController::class);
+Route::apiResource('suppliers', SupplierController::class);
+Route::apiResource('supplier-category-subcategories', SupplierCategorySubCategoryController::class);
+Route::apiResource('socials', SocialController::class);
+
+

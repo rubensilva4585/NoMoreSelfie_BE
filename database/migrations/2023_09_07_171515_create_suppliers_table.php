@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('address', 100)->nullable()->default(null);
             $table->longText('bio')->nullable()->default(null);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('id_district')->references('id')->on('districts');
         });

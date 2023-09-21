@@ -15,17 +15,9 @@ class ClientController extends Controller
     {
         try {
             return response()->json(Client::all(), 200);
-            } catch (Exception $exception) {
+        } catch (Exception $exception) {
             return response()->json(['error' => $exception], 500);
         }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -44,25 +36,17 @@ class ClientController extends Controller
     {
         try {
             return response()->json($client, 200);
-            } catch (Exception $exception) {
+        } catch (Exception $exception) {
             return response()->json(['error' => $exception], 500);
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Client $client)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(UpdateClientRequest $request, Client $client)
     {
-
         try
         {
             $client->update($request->all());
@@ -82,7 +66,7 @@ class ClientController extends Controller
         try {
             $client->delete();
             return response()->json(['message' => 'Deleted'], 205);
-            } catch (Exception $exception) {
+        } catch (Exception $exception) {
             return response()->json(['error' => $exception], 500);
         }
     }
