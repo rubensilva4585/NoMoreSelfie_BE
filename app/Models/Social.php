@@ -10,6 +10,8 @@ class Social extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $primaryKey = 'id_supplier';
+
     protected $fillable = [
         'id_supplier',
         'website',
