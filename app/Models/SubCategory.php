@@ -12,11 +12,11 @@ class SubCategory extends Model
 
     protected $fillable = [
         'name',
-        'id_category'
+        'category_id'
     ];
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'id_category');
+        return $this->belongsTo(Category::class, 'category_id');
     }
 }

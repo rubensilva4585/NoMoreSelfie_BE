@@ -23,14 +23,14 @@ class Profile extends Model
         'bio',
     ];
 
-    public function requests()
+    public function request()
     {
-        return $this->hasMany(Requests::class, 'id_request');
+        return $this->hasMany(Requests::class, 'request_id');
     }
 
     public function district()
     {
-        return $this->belongsTo(District::class, 'id_district');
+        return $this->belongsTo(District::class, 'district_id');
     }
 
     public function social()

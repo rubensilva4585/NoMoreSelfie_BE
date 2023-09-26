@@ -14,8 +14,8 @@ class District extends Model
         'name'
     ];
 
-    public function profiles()
+    public function profile()
     {
-        return $this->hasMany(Profile::class, 'id_district');
+        return $this->hasMany(Profile::class, 'district_id');
     }
 }

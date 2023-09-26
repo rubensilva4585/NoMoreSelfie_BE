@@ -15,8 +15,8 @@ class Category extends Model
         'inPerson'
     ];
 
-    public function subCategories()
+    public function subCategory()
     {
-        return $this->hasMany(SubCategory::class, 'id_subCategory');
+        return $this->hasMany(SubCategory::class, 'subCategory_id');
     }
 }

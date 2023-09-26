@@ -4,14 +4,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
-use App\Http\Controllers\ClientController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
 
 use App\Http\Controllers\DistrictController;
-use App\Http\Controllers\SupplierController;
-use App\Http\Controllers\SupplierCategorySubCategoryController;
+use App\Http\Controllers\UserSubCategoryController;
 use App\Http\Controllers\SocialController;
 
 /*
@@ -28,18 +26,6 @@ use App\Http\Controllers\SocialController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-// Route::prefix('clients')->group(function () {
-//     Route::get('', [ClientController::class, 'index']);
-//     Route::get('{client}', [ClientController::class, 'show']);
-
-//     //Route::middleware('auth:sanctum')->group(function () {
-//         Route::post('', [ClientController::class, 'store']);
-//         Route::put('{client}', [ClientController::class, 'update']);
-//         Route::patch('{client}', [ClientController::class, 'update']);
-//         Route::delete('{client}', [ClientController::class, 'destroy']);
-//     //});
-// });
 
 Route::prefix('requests')->group(function () {
     Route::get('', [RequestController::class, 'index']);
@@ -89,30 +75,6 @@ Route::prefix('districts')->group(function () {
     //});
 });
 
-// Route::prefix('suppliers')->group(function () {
-//     Route::get('', [SupplierController::class, 'index']);
-//     Route::get('{supplier}', [SupplierController::class, 'show']);
-
-//     //Route::middleware('auth:sanctum')->group(function () {
-//         Route::post('', [SupplierController::class, 'store']);
-//         Route::put('{supplier}', [SupplierController::class, 'update']);
-//         Route::patch('{supplier}', [SupplierController::class, 'update']);
-//         Route::delete('{supplier}', [SupplierController::class, 'destroy']);
-//     //});
-// });
-
-// Route::prefix('suppliercategorysubcategories')->group(function () {
-//     Route::get('', [SupplierCategorySubCategoryController::class, 'index']);
-//     Route::get('{suppliercategorysubcategory}', [SupplierCategorySubCategoryController::class, 'show']);
-
-//     //Route::middleware('auth:sanctum')->group(function () {
-//         Route::post('{suppliercategorysubcategory}', [SupplierCategorySubCategoryController::class, 'store']);
-//         Route::put('{suppliercategorysubcategory}', [SupplierCategorySubCategoryController::class, 'update']);
-//         Route::patch('{suppliercategorysubcategory}', [SupplierCategorySubCategoryController::class, 'update']);
-//         Route::delete('{suppliercategorysubcategory}', [SupplierCategorySubCategoryController::class, 'destroy']);
-//     //});
-// });
-
 Route::prefix('socials')->group(function () {
     Route::get('', [SocialController::class, 'index']);
     Route::get('{social}', [SocialController::class, 'show']);
@@ -134,5 +96,17 @@ Route::prefix('profiles')->group(function () {
         Route::put('{profile}', [ProfileController::class, 'update']);
         Route::patch('{profile}', [ProfileController::class, 'update']);
         Route::delete('{profile}', [ProfileController::class, 'destroy']);
+    //});
+});
+
+Route::prefix('usersubcategories')->group(function () {
+    Route::get('', [UserSubCategoryController::class, 'index']);
+    Route::get('{usersubcategory}', [UserSubCategoryController::class, 'show']);
+
+    //Route::middleware('auth:sanctum')->group(function () {
+        Route::post('', [UserSubCategoryController::class, 'store']);
+        Route::put('{usersubcategory}', [UserSubCategoryController::class, 'update']);
+        Route::patch('{usersubcategory}', [UserSubCategoryController::class, 'update']);
+        Route::delete('{usersubcategory}', [UserSubCategoryController::class, 'destroy']);
     //});
 });

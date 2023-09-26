@@ -95,7 +95,7 @@ class SubCategorySeeder extends Seeder
 
             foreach ($subcategories as $subcategory) {
                 DB::table('sub_categories')->insert([
-                    'id_category' => $categoryId,
+                    'category_id' => $categoryId,
                     'name' => $subcategory,
                     'created_at' => now(),
                     'updated_at' => now(),
