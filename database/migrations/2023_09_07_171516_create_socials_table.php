@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('socials', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_profile');
+            $table->unsignedBigInteger('user_id');
             $table->string('website')->nullable();
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();
@@ -20,8 +20,8 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->primary('id_profile');
-            $table->foreign('id_profile')->references('id')->on('profiles');
+            $table->primary('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

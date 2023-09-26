@@ -38,4 +38,8 @@ class Profile extends Model
         return $this->hasOne(Social::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

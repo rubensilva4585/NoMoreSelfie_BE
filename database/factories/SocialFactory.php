@@ -16,25 +16,25 @@ class SocialFactory extends Factory
      */
     // protected $model = \App\Models\Social::class;
 
-    private $selectedProfiles = [];
+    private $selectedUsers = [];
 
     public function definition(): array
     {
-        $profile = \App\Models\Profile::inRandomOrder()
-            ->whereNotIn('id', $this->selectedProfiles)
+        $user = \App\Models\User::inRandomOrder()
+            ->whereNotIn('id', $this->selectedUsers)
             ->first();
 
-        if ($profile) {
-            $this->selectedProfiles[] = $profile->id;
+        if ($user) {
+            $this->selectedUsers[] = $user->id;
             return [
-                'id_profile' => $profile->id,
+                'user_id' => $user->id,
                 'website' => $this->faker->url,
                 'facebook' => $this->faker->url,
                 'instagram' => $this->faker->url,
                 'linkedin' => $this->faker->url,
             ];
         } else {
-            // Handle the case where there are not enough unique suppliers.
+            // Handle the case where there are not enough unique suppliers users.
             return [];
         }
     }
