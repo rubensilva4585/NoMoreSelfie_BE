@@ -10,18 +10,18 @@ class Social extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $primaryKey = 'id_supplier';
+    protected $primaryKey = 'id_profile';
 
     protected $fillable = [
-        'id_supplier',
+        'id_profile',
         'website',
         'facebook',
         'instagram',
         'linkedin',
     ];
 
-    public function supplier()
+    public function profile()
     {
-        return $this->belongsTo(Supplier::class, 'id_supplier');
+        return $this->belongsTo(Profile::class, 'id_profile');
     }
 }

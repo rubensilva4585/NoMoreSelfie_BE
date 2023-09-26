@@ -4,16 +4,16 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Supplier_Category_SubCategory;
+use App\Models\User;
+use App\Models\Profile;
 
-class SupplierCategorySubCategorySeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Supplier_Category_SubCategory::factory()->count(50)->create();
-
+        User::factory()->count(50)->create()->hasAttached(Profile::factory(), ['foreign_key' => 'user_id']);
     }
 }

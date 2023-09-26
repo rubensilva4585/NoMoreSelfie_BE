@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('suppliers', function (Blueprint $table) {
+        Schema::create('profiles', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 32);
-            $table->string('email', 50)->unique();
-            $table->string('password');
-            $table->unsignedBigInteger('id_district');
+            $table->unsignedBigInteger('user_id');
+            $table->enum('role', ['user', 'supplier', 'admin'])->default('user');
+            $table->unsignedBigInteger('district_id');
+            $table->date('date_of_birth')->nullable();
             $table->string('phone', 16)->nullable()->default(null);
             $table->string('company', 50)->nullable()->default(null);
             $table->string('nif', 9);
@@ -25,7 +25,8 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('id_district')->references('id')->on('districts');
+            $table->foreign('district_id')->references('id')->on('districts');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -34,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('suppliers');
+        Schema::dropIfExists('profiles');
     }
 };

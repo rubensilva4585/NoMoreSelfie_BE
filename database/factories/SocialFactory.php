@@ -16,18 +16,18 @@ class SocialFactory extends Factory
      */
     // protected $model = \App\Models\Social::class;
 
-    private $selectedSuppliers = [];
+    private $selectedProfiles = [];
 
     public function definition(): array
     {
-        $supplier = \App\Models\Supplier::inRandomOrder()
-            ->whereNotIn('id', $this->selectedSuppliers)
+        $profile = \App\Models\Profile::inRandomOrder()
+            ->whereNotIn('id', $this->selectedProfiles)
             ->first();
 
-        if ($supplier) {
-            $this->selectedSuppliers[] = $supplier->id;
+        if ($profile) {
+            $this->selectedProfiles[] = $profile->id;
             return [
-                'id_supplier' => $supplier->id,
+                'id_profile' => $profile->id,
                 'website' => $this->faker->url,
                 'facebook' => $this->faker->url,
                 'instagram' => $this->faker->url,

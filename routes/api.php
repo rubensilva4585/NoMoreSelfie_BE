@@ -29,17 +29,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('clients')->group(function () {
-    Route::get('', [ClientController::class, 'index']);
-    Route::get('{client}', [ClientController::class, 'show']);
+// Route::prefix('clients')->group(function () {
+//     Route::get('', [ClientController::class, 'index']);
+//     Route::get('{client}', [ClientController::class, 'show']);
 
-    //Route::middleware('auth:sanctum')->group(function () {
-        Route::post('', [ClientController::class, 'store']);
-        Route::put('{client}', [ClientController::class, 'update']);
-        Route::patch('{client}', [ClientController::class, 'update']);
-        Route::delete('{client}', [ClientController::class, 'destroy']);
-    //});
-});
+//     //Route::middleware('auth:sanctum')->group(function () {
+//         Route::post('', [ClientController::class, 'store']);
+//         Route::put('{client}', [ClientController::class, 'update']);
+//         Route::patch('{client}', [ClientController::class, 'update']);
+//         Route::delete('{client}', [ClientController::class, 'destroy']);
+//     //});
+// });
 
 Route::prefix('requests')->group(function () {
     Route::get('', [RequestController::class, 'index']);
@@ -89,29 +89,29 @@ Route::prefix('districts')->group(function () {
     //});
 });
 
-Route::prefix('suppliers')->group(function () {
-    Route::get('', [SupplierController::class, 'index']);
-    Route::get('{supplier}', [SupplierController::class, 'show']);
+// Route::prefix('suppliers')->group(function () {
+//     Route::get('', [SupplierController::class, 'index']);
+//     Route::get('{supplier}', [SupplierController::class, 'show']);
 
-    //Route::middleware('auth:sanctum')->group(function () {
-        Route::post('', [SupplierController::class, 'store']);
-        Route::put('{supplier}', [SupplierController::class, 'update']);
-        Route::patch('{supplier}', [SupplierController::class, 'update']);
-        Route::delete('{supplier}', [SupplierController::class, 'destroy']);
-    //});
-});
+//     //Route::middleware('auth:sanctum')->group(function () {
+//         Route::post('', [SupplierController::class, 'store']);
+//         Route::put('{supplier}', [SupplierController::class, 'update']);
+//         Route::patch('{supplier}', [SupplierController::class, 'update']);
+//         Route::delete('{supplier}', [SupplierController::class, 'destroy']);
+//     //});
+// });
 
-Route::prefix('suppliercategorysubcategories')->group(function () {
-    Route::get('', [SupplierCategorySubCategoryController::class, 'index']);
-    Route::get('{suppliercategorysubcategory}', [SupplierCategorySubCategoryController::class, 'show']);
+// Route::prefix('suppliercategorysubcategories')->group(function () {
+//     Route::get('', [SupplierCategorySubCategoryController::class, 'index']);
+//     Route::get('{suppliercategorysubcategory}', [SupplierCategorySubCategoryController::class, 'show']);
 
-    //Route::middleware('auth:sanctum')->group(function () {
-        Route::post('{suppliercategorysubcategory}', [SupplierCategorySubCategoryController::class, 'store']);
-        Route::put('{suppliercategorysubcategory}', [SupplierCategorySubCategoryController::class, 'update']);
-        Route::patch('{suppliercategorysubcategory}', [SupplierCategorySubCategoryController::class, 'update']);
-        Route::delete('{suppliercategorysubcategory}', [SupplierCategorySubCategoryController::class, 'destroy']);
-    //});
-});
+//     //Route::middleware('auth:sanctum')->group(function () {
+//         Route::post('{suppliercategorysubcategory}', [SupplierCategorySubCategoryController::class, 'store']);
+//         Route::put('{suppliercategorysubcategory}', [SupplierCategorySubCategoryController::class, 'update']);
+//         Route::patch('{suppliercategorysubcategory}', [SupplierCategorySubCategoryController::class, 'update']);
+//         Route::delete('{suppliercategorysubcategory}', [SupplierCategorySubCategoryController::class, 'destroy']);
+//     //});
+// });
 
 Route::prefix('socials')->group(function () {
     Route::get('', [SocialController::class, 'index']);
@@ -122,5 +122,17 @@ Route::prefix('socials')->group(function () {
         Route::put('{social}', [SocialController::class, 'update']);
         Route::patch('{social}', [SocialController::class, 'update']);
         Route::delete('{social}', [SocialController::class, 'destroy']);
+    //});
+});
+
+Route::prefix('profiles')->group(function () {
+    Route::get('', [ProfileController::class, 'index']);
+    Route::get('{profile}', [ProfileController::class, 'show']);
+
+    //Route::middleware('auth:sanctum')->group(function () {
+        Route::post('', [ProfileController::class, 'store']);
+        Route::put('{profile}', [ProfileController::class, 'update']);
+        Route::patch('{profile}', [ProfileController::class, 'update']);
+        Route::delete('{profile}', [ProfileController::class, 'destroy']);
     //});
 });

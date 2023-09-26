@@ -19,9 +19,4 @@ class Category extends Model
     {
         return $this->hasMany(SubCategory::class, 'id_subCategory');
     }
-
-    public function supplier_Category_SubCategory()
-    {
-        return $this->hasMany(Supplier_Category_SubCategory::class);
-    }
 }

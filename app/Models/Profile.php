@@ -5,23 +5,28 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class supplier extends Model
+class Profile extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'role',
         'id_district',
+        'date_of_birth',
         'phone',
         'company',
         'nif',
         'address',
         'bio',
     ];
+
+    public function requests()
+    {
+        return $this->hasMany(Requests::class, 'id_request');
+    }
 
     public function district()
     {
@@ -33,13 +38,4 @@ class supplier extends Model
         return $this->hasOne(Social::class);
     }
 
-    public function requests()
-    {
-        return $this->hasMany(Request::class);
-    }
-
-    public function supplier_Category_SubCategory()
-    {
-        return $this->hasMany(Supplier_Category_SubCategory::class);
-    }
 }

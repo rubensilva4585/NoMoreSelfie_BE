@@ -8,15 +8,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class District extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name'
     ];
 
-    public function suppliers()
+    public function profiles()
     {
-        return $this->hasMany(Supplier::class, 'id_district');
+        return $this->hasMany(Profile::class, 'id_district');
     }
 }

@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('requests', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_client');
-            $table->unsignedBigInteger('id_supplier');
+            $table->unsignedBigInteger('id_profile');
             $table->unsignedBigInteger('id_category');
             $table->unsignedBigInteger('id_subCategory')->nullable();
             $table->dateTime('date');
@@ -23,8 +22,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('id_client')->references('id')->on('clients');
-            $table->foreign('id_supplier')->references('id')->on('suppliers');
+            $table->foreign('id_profile')->references('id')->on('profiles');
             $table->foreign('id_category')->references('id')->on('categories');
             $table->foreign('id_subCategory')->references('id')->on('sub_categories');
         });

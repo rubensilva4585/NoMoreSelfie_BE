@@ -11,7 +11,7 @@ class Request extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'id_supplier',
+        'id_profile',
         'id_category',
         'id_subCategory',
         'date',
@@ -19,14 +19,9 @@ class Request extends Model
         'description',
     ];
 
-    public function client()
+    public function profile()
     {
-        return $this->belongsTo(Client::class, 'id_client');
-    }
-
-    public function supplier()
-    {
-        return $this->belongsTo(Supplier::class, 'id_supplier');
+        return $this->belongsTo(Client::class, 'id_profile');
     }
 
     public function category()
