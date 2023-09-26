@@ -26,7 +26,7 @@ class ProfileController extends Controller
      */
     public function store(StoreProfileRequest $request)
     {
-        $district = District::findOrFail($request->input('id_district'));
+        $district = District::findOrFail($request->input('district_id'));
         $profile = new Profile($request->all());
         $profile->district()->associate($district);
         $profile->save();
@@ -52,7 +52,7 @@ class ProfileController extends Controller
     public function update(UpdateProfileRequest $request, Profile $profile)
     {
         try {
-            $districtId = $request->input('id_district');
+            $districtId = $request->input('district_id');
             $district = District::findOrFail($districtId);
             $profile->update($request->all());
             $profile->district()->associate($district);
