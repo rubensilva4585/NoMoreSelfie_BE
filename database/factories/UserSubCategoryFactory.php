@@ -25,14 +25,14 @@ class UserSubCategoryFactory extends Factory
         ->whereNotIn('id', $this->selectedUsers)
         ->first();
 
-        $profile = \App\Models\Profile::inRandomOrder()->first();
+        $subcategory = \App\Models\SubCategory::inRandomOrder()->first();
 
         if ($user) {
             $this->selectedUsers[] = $user->id;
 
             return [
                 'user_id' => $user->id,
-                'profile_id' => $profile->id,
+                'subcategory_id' => $subcategory->id,
                 'startPrice' => $this->faker->randomFloat(2, 10, 1000),
                 'endPrice' => $this->faker->randomFloat(2, 10, 1000),
             ];

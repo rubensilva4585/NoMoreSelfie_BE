@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\UserSubCategory;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserSubCategoryRequest;
 use App\Http\Requests\UpdateUserSubCategoryRequest;
 
@@ -29,8 +31,8 @@ class UserSubCategoryController extends Controller
     public function store(StoreUserSubCategoryRequest $request)
     {
         try {
-            $$userSubCategory = UserSubCategory::create($request->all());
-            return response()->json($$userSubCategory, 201);
+            $userSubCategory = UserSubCategory::create($request->all());
+            return response()->json($userSubCategory, 201);
         }
         catch (Exception $exception)
         {
@@ -41,11 +43,19 @@ class UserSubCategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(UserSubCategory $userSubCategory)
+    public function show($user_id, $subcategory_id)
     {
         try
         {
-            return response()->json($$userSubCategory, 200);
+            $userSubCategory = UserSubCategory::where('user_id', $user_id)
+            ->where('subcategory_id', $subcategory_id)
+            ->first();
+
+            if (!$userSubCategory) {
+                return response()->json(['message' => 'UserSubCategory not found'], 404);
+            }
+
+            return response()->json($userSubCategory, 200);
         }
         catch (Exception $exception)
         {
@@ -60,8 +70,11 @@ class UserSubCategoryController extends Controller
     {
         try
         {
-            $$userSubCategory->update($request->all());
-            return response()->json($$userSubCategory, 200);
+            $userSubCategory = UserSubCategory::where('user_id', $request->user_id)
+            ->where('subcategory_id', $request->subcategory_id);
+
+            $userSubCategory->update($request->all());
+            return response()->json($userSubCategory, 200);
         }
         catch (Exception $exception)
         {
@@ -72,16 +85,25 @@ class UserSubCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(UserSubCategory $userSubCategory)
+    public function destroy($user_id, $subcategory_id)
     {
         try
         {
+            $userSubCategory = UserSubCategory::where('user_id', $user_id)
+                ->where('subcategory_id', $subcategory_id);
+
+            if (!$userSubCategory) {
+                return response()->json(['message' => 'UserSubCategory not found'], 404);
+            }
+
             $userSubCategory->delete();
-            return response()->json(['message' => 'Deleted'], 205);
+
+            return response()->json(['message' => 'Deleted'], 204);
+
         }
         catch (Exception $exception)
         {
-            return response()->json(['error' => $exception], 500);
+            return response()->json(['error' => $exception->getMessage()], 500);
         }
     }
 }

@@ -9,10 +9,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class UserSubCategory extends Model
 {
     use HasFactory, SoftDeletes;
+    
+    protected $primaryKey = ['user_id', 'subcategory_id'];
+
+    public $incrementing = false;
 
     protected $fillable = [
         'user_id',
-        'profile_id',
+        'subcategory_id',
         'startPrice',
         'endPrice',
     ];
@@ -22,9 +26,9 @@ class UserSubCategory extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function profile()
+    public function subcategory()
     {
-        return $this->belongsTo(Profile::class, 'profile_id');
+        return $this->belongsTo(SubCategory::class, 'subcategory_id');
     }
 
     public function userSubCategory()

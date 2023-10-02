@@ -13,9 +13,10 @@ class Profile extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'user_id',
         'role',
-        'id_district',
-        'date_of_birth',
+        'district_id',
+        'dob',
         'phone',
         'company',
         'nif',

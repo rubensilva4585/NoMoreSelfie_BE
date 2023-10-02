@@ -29,7 +29,7 @@ class ProfileFactory extends Factory
             return [
                 'user_id' => $user->id,
                 'district_id' => District::all()->random()->id,
-                'date_of_birth' => $this->faker->date,
+                'dob' => $this->faker->date,
                 'phone' => rand(910000000, 999999999),
                 'company' => $this->faker->company,
                 'nif' => rand(100000000, 999999999),

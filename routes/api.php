@@ -3,11 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
-
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\UserSubCategoryController;
 use App\Http\Controllers\SocialController;
@@ -25,6 +25,30 @@ use App\Http\Controllers\SocialController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::prefix('users')->group(function () {
+    Route::get('', [UserController::class, 'index']);
+    Route::get('{user}', [UserController::class, 'show']);
+
+    //Route::middleware('auth:sanctum')->group(function () {
+        Route::post('', [UserController::class, 'store']);
+        Route::put('{user}', [UserController::class, 'update']);
+        Route::patch('{user}', [UserController::class, 'update']);
+        Route::delete('{user}', [UserController::class, 'destroy']);
+    //});
+});
+
+Route::prefix('profiles')->group(function () {
+    Route::get('', [ProfileController::class, 'index']);
+    Route::get('{profile}', [ProfileController::class, 'show']);
+
+    //Route::middleware('auth:sanctum')->group(function () {
+        Route::post('', [ProfileController::class, 'store']);
+        Route::put('{profile}', [ProfileController::class, 'update']);
+        Route::patch('{profile}', [ProfileController::class, 'update']);
+        Route::delete('{profile}', [ProfileController::class, 'destroy']);
+    //});
 });
 
 Route::prefix('requests')->group(function () {
@@ -87,26 +111,14 @@ Route::prefix('socials')->group(function () {
     //});
 });
 
-Route::prefix('profiles')->group(function () {
-    Route::get('', [ProfileController::class, 'index']);
-    Route::get('{profile}', [ProfileController::class, 'show']);
-
-    //Route::middleware('auth:sanctum')->group(function () {
-        Route::post('', [ProfileController::class, 'store']);
-        Route::put('{profile}', [ProfileController::class, 'update']);
-        Route::patch('{profile}', [ProfileController::class, 'update']);
-        Route::delete('{profile}', [ProfileController::class, 'destroy']);
-    //});
-});
-
 Route::prefix('usersubcategories')->group(function () {
     Route::get('', [UserSubCategoryController::class, 'index']);
-    Route::get('{usersubcategory}', [UserSubCategoryController::class, 'show']);
+    Route::get('{user_id}/{subcategory_id}', [UserSubCategoryController::class, 'show']);
 
     //Route::middleware('auth:sanctum')->group(function () {
         Route::post('', [UserSubCategoryController::class, 'store']);
-        Route::put('{usersubcategory}', [UserSubCategoryController::class, 'update']);
-        Route::patch('{usersubcategory}', [UserSubCategoryController::class, 'update']);
-        Route::delete('{usersubcategory}', [UserSubCategoryController::class, 'destroy']);
+        Route::put('{user_id}/{subcategory_id}', [UserSubCategoryController::class, 'update']);
+        Route::patch('{user_id}/{subcategory_id}', [UserSubCategoryController::class, 'update']);
+        Route::delete('{user_id}/{subcategory_id}', [UserSubCategoryController::class, 'destroy']);
     //});
 });

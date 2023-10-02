@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Request;
-use App\Http\Requests\StoreRequestRequest;
-use App\Http\Requests\UpdateRequestRequest;
+use App\Models\User;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 
-class RequestController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class RequestController extends Controller
     {
         try
         {
-            return response()->json(Request::all(), 200);
+            return response()->json(User::all(), 200);
         }
         catch (Exception $exception)
         {
@@ -26,21 +26,26 @@ class RequestController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRequestRequest $request)
+    public function store(StoreUserRequest $request)
     {
-        $request = Request::create($request->all());
-        return response()->json($request, 201);
-
+        try {
+            $user = User::create($request->all());
+            return response()->json($user, 201);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Request $request)
+    public function show(User $user)
     {
         try
         {
-            return response()->json($request, 200);
+            return response()->json($user, 200);
         }
         catch (Exception $exception)
         {
@@ -51,13 +56,12 @@ class RequestController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRequestRequest $updateRequest, Request $request)
+    public function update(UpdateUserRequest $request, User $user)
     {
-
         try
         {
-            $request->update($updateRequest->all());
-            return response()->json($request, 200);
+            $user->update($request->all());
+            return response()->json($user, 200);
         }
         catch (Exception $exception)
         {
@@ -68,11 +72,11 @@ class RequestController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
+    public function destroy(User $user)
     {
         try
         {
-            $request->delete();
+            $user->delete();
             return response()->json(['message' => 'Deleted'], 205);
         }
         catch (Exception $exception)

@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->unique();
             $table->enum('role', ['user', 'supplier', 'admin'])->default('user');
             $table->unsignedBigInteger('district_id');
-            $table->date('date_of_birth')->nullable();
+            $table->date('dob')->nullable();
             $table->string('phone', 16)->nullable()->default(null);
             $table->string('company', 50)->nullable()->default(null);
             $table->string('nif', 9);
