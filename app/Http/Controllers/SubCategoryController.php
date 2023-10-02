@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\SubCategory;
 use App\Http\Requests\StoreSubCategoryRequest;
 use App\Http\Requests\UpdateSubCategoryRequest;
@@ -66,7 +67,7 @@ class SubCategoryController extends Controller
             }
 
             $subCategory->update($request->all());
-            
+
             return response()->json($subCategory, 200);
         }
         catch (Exception $exception)

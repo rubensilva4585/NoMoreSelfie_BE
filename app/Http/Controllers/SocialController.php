@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Social;
 use App\Http\Requests\StoreSocialRequest;
 use App\Http\Requests\UpdateSocialRequest;

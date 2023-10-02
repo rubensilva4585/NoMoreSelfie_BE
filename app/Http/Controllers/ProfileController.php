@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Profile;
 use App\Models\District;
 use App\Http\Requests\StoreProfileRequest;

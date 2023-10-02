@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Request;
 use App\Http\Requests\StoreRequestRequest;
 use App\Http\Requests\UpdateRequestRequest;

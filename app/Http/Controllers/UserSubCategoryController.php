@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use Exception;
 use App\Models\UserSubCategory;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserSubCategoryRequest;
