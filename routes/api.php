@@ -11,6 +11,7 @@ use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\UserSubCategoryController;
 use App\Http\Controllers\SocialController;
+use App\Http\Controllers\API\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,26 @@ use App\Http\Controllers\SocialController;
 |
 */
 
+// ROTAS USADAS NO FRONT
+Route::controller(AuthController::class)->group(function () {
+    Route::post('auth/login', 'login');
+    Route::post('auth/register', 'register');
+    Route::post('auth/logout', 'logout');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ROTAS TESTE CRUD
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

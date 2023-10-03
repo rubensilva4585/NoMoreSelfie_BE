@@ -29,6 +29,11 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
+        $request->validate([
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string',
+        ]);
+
         try {
             $user = User::create($request->all());
             return response()->json($user, 201);
@@ -59,6 +64,8 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
+        $user->profile()->update($request->only(['role', 'bio']));  // teste
+
         try
         {
             $user->update($request->all());
