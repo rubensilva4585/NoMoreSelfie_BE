@@ -49,8 +49,6 @@ class AuthController extends Controller
             'password' => 'required|string|min:6',
         ]);
 
-        $user->profile()->update($request->only(['role', 'bio'])); // testar
-
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
@@ -60,6 +58,8 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        $user->profile()->update($request->only(['role', 'bio'])); // testar
 
         return response()->json([
             'message' => 'User created successfully',
