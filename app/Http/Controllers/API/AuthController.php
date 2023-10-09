@@ -36,9 +36,17 @@ class AuthController extends Controller
             ]);
         }
 
-        return response()->json([
-            'message' => 'Invalid credentials',
-        ], 401);
+        $userByEmail = User::where('email', $credentials['email'])->first();
+
+        if (!$userByEmail) {
+            return response()->json([
+                'email' => 'Email inválido',
+            ], 401);
+        } else {
+            return response()->json([
+                'password' => 'Password incorreta',
+            ], 401);
+        }
     }
 
     public function register(Request $request)
