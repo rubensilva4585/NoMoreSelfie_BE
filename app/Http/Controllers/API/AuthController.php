@@ -67,12 +67,21 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $user->profile()->update($request->only(['role', 'bio'])); // testar
+        $user->profile()->update($request->only(['role', 'phone'])); // testar
 
-        return response()->json([
-            'message' => 'User created successfully',
-            'user' => $user
-        ]);
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            $userAuth = Auth::user();
+            return response()->json([
+                'message' => 'User created successfully',
+                'user' => $user,
+                // 'role' => $user->profile()->first()->role,
+                'authorization' => [
+                    'token' => $userAuth->createToken('ApiToken')->plainTextToken,
+                    'type' => 'bearer',
+                ]
+            ]);
+        }
     }
 
     public function logout()
