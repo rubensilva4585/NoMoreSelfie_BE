@@ -34,7 +34,7 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::controller(GeneralController::class)->group(function () {
     Route::get('general/districts/getalldistricts', 'getAllDistricts');
-    Route::get('general/categories/getcategory/{categoryId}', 'getCategory');
+    Route::get('general/categories/getcategory/{category}', 'getCategory');
     Route::get('general/categories/getallcategories', 'getAllCategories');
 });
 

@@ -15,10 +15,8 @@ class GeneralController extends Controller
         return response()->json($districts);
     }
 
-    public function getCategory($categoryId)
+    public function getCategory(Category $category)
     {
-        $category = Category::find($categoryId);
-
         if ($category) {
             $categoryData = $category->only(['id', 'name', 'inPerson']);
             $subCategoriesData = $category->subCategory->map->only(['id', 'name']);
@@ -38,7 +36,7 @@ class GeneralController extends Controller
     public function getAllCategories()
     {
         $categories = Category::with('subCategory')->get();
-    
+
         $formattedCategories = $categories->map(function ($category) {
             return [
                 'id' => $category->id,
