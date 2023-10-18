@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -23,12 +24,27 @@ class AuthController extends Controller
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
+
         $credentials = $request->only('email', 'password');
+
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+
+            if (Schema::hasTable('profiles')) {
+                $profile = $user->profile()->first();
+
+                if ($profile) {
+                    $role = $profile->role;
+                } else {
+                    $role = 'user';
+                }
+            } else {
+                $role = 'user';
+            }
+
             return response()->json([
                 'user' => $user,
-                // 'role' => $user->profile()->first()->role,
+                'role' => $role,
                 'authorization' => [
                     'token' => $user->createToken('ApiToken')->plainTextToken,
                     'type' => 'bearer',
@@ -36,17 +52,9 @@ class AuthController extends Controller
             ]);
         }
 
-        $userByEmail = User::where('email', $credentials['email'])->first();
-
-        if (!$userByEmail) {
-            return response()->json([
-                'email' => 'Email inválido',
-            ], 401);
-        } else {
-            return response()->json([
-                'password' => 'Password incorreta',
-            ], 401);
-        }
+        return response()->json([
+            'message' => 'Invalid credentials',
+        ], 401);
     }
 
     public function register(Request $request)
@@ -67,21 +75,26 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $user->profile()->update($request->only(['role', 'phone'])); // testar
+        if (Schema::hasTable('profiles')) {
+            $profileData = [
+                'role' => 'user',
+                'user_id' => $user->id,
+                'district_id' => $request->input('district_id', null),
+                'dob' => $request->input('dob', null),
+                'phone' => $request->input('phone', null),
+                'company' => $request->input('company', null),
+                'nif' => $request->input('nif', null),
+                'address' => $request->input('address', null),
+                'bio' => $request->input('bio', null),
+            ];
 
-        $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
-            $userAuth = Auth::user();
-            return response()->json([
-                'message' => 'User created successfully',
-                'user' => $user,
-                // 'role' => $user->profile()->first()->role,
-                'authorization' => [
-                    'token' => $userAuth->createToken('ApiToken')->plainTextToken,
-                    'type' => 'bearer',
-                ]
-            ]);
+            $user->profile()->create($profileData);
         }
+
+        return response()->json([
+            'message' => 'User and profile created successfully',
+            'user' => $user,
+        ]);
     }
 
     public function logout()
@@ -97,7 +110,7 @@ class AuthController extends Controller
     {
         return response()->json([
             'user' => Auth::user(),
-            'authorisation' => [
+            'authorization' => [
                 'token' => Auth::refresh(),
                 'type' => 'bearer',
             ]

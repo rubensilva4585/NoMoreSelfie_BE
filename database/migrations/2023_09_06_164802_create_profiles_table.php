@@ -15,13 +15,14 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->unique();
             $table->enum('role', ['user', 'supplier', 'admin'])->default('user');
-            $table->unsignedBigInteger('district_id');
+            $table->unsignedBigInteger('district_id')->nullable();
             $table->date('dob')->nullable();
             $table->string('phone', 16)->nullable()->default(null);
             $table->string('company', 50)->nullable()->default(null);
-            $table->string('nif', 9);
+            $table->string('nif', 9)->nullable();
             $table->string('address', 100)->nullable()->default(null);
             $table->longText('bio')->nullable()->default(null);
+            $table->boolean('verified')->default(false);
             $table->timestamps();
             $table->softDeletes();
 
