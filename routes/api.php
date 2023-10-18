@@ -12,6 +12,7 @@ use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\UserSubCategoryController;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\GeneralController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,11 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('auth/logout', 'logout');
 });
 
+Route::controller(GeneralController::class)->group(function () {
+    Route::get('general/districts/getalldistricts', 'getAllDistricts');
+    Route::get('general/categories/getcategory/{category}', 'getCategory');
+    Route::get('general/categories/getallcategories', 'getAllCategories');
+});
 
 
 

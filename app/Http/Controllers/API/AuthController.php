@@ -52,9 +52,17 @@ class AuthController extends Controller
             ]);
         }
 
-        return response()->json([
-            'message' => 'Invalid credentials',
-        ], 401);
+        $userByEmail = User::where('email', $credentials['email'])->first();
+
+        if (!$userByEmail) {
+            return response()->json([
+                'email' => 'Email inválido',
+            ], 401);
+        } else {
+            return response()->json([
+                'password' => 'Password incorreta',
+            ], 401);
+        }
     }
 
     public function register(Request $request)
@@ -91,10 +99,21 @@ class AuthController extends Controller
             $user->profile()->create($profileData);
         }
 
-        return response()->json([
-            'message' => 'User and profile created successfully',
-            'user' => $user,
-        ]);
+        $user->profile()->update($request->only(['role', 'phone'])); // testar
+
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            $userAuth = Auth::user();
+            return response()->json([
+                'message' => 'User created successfully',
+                'user' => $user,
+                // 'role' => $user->profile()->first()->role,
+                'authorization' => [
+                    'token' => $userAuth->createToken('ApiToken')->plainTextToken,
+                    'type' => 'bearer',
+                ]
+            ]);
+        }
     }
 
     public function logout()
