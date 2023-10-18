@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('nif', 9)->nullable();
             $table->string('address', 100)->nullable()->default(null);
             $table->longText('bio')->nullable()->default(null);
+            $table->boolean('verified')->default(false);
             $table->timestamps();
             $table->softDeletes();
 
