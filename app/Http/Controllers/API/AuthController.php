@@ -30,18 +30,6 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
-            // if (Schema::hasTable('profiles')) {
-            //     $profile = $user->profile()->first();
-
-            //     if ($profile) {
-            //         $role = $profile->role;
-            //     } else {
-            //         $role = 'user';
-            //     }
-            // } else {
-            //     $role = 'user';
-            // }
-
             $user->load('profile');
 
             $userData = [
@@ -66,15 +54,6 @@ class AuthController extends Controller
                     'type' => 'bearer',
                 ]
             ]);
-
-            // return response()->json([
-            //     'user' => $user,
-            //     'role' => $role,
-            //     'authorization' => [
-            //         'token' => $user->createToken('ApiToken')->plainTextToken,
-            //         'type' => 'bearer',
-            //     ]
-            // ]);
         }
 
         $userByEmail = User::where('email', $credentials['email'])->first();
