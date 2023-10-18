@@ -30,21 +30,25 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
-            if (Schema::hasTable('profiles')) {
-                $profile = $user->profile()->first();
+            $user->load('profile');
 
-                if ($profile) {
-                    $role = $profile->role;
-                } else {
-                    $role = 'user';
-                }
-            } else {
-                $role = 'user';
-            }
+            $userData = [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $user->profile->role,
+                'district_id' => $user->profile->district_id,
+                'dob' => $user->profile->dob,
+                'phone' => $user->profile->phone,
+                'company' => $user->profile->company,
+                'nif' => $user->profile->nif,
+                'address' => $user->profile->address,
+                'bio' => $user->profile->bio,
+            ];
 
             return response()->json([
-                'user' => $user,
-                'role' => $role,
+                'message' => 'User login successfully',
+                'user' => $userData,
                 'authorization' => [
                     'token' => $user->createToken('ApiToken')->plainTextToken,
                     'type' => 'bearer',
@@ -52,9 +56,17 @@ class AuthController extends Controller
             ]);
         }
 
-        return response()->json([
-            'message' => 'Invalid credentials',
-        ], 401);
+        $userByEmail = User::where('email', $credentials['email'])->first();
+
+        if (!$userByEmail) {
+            return response()->json([
+                'email' => 'Email inválido',
+            ], 401);
+        } else {
+            return response()->json([
+                'password' => 'Password incorreta',
+            ], 401);
+        }
     }
 
     public function register(Request $request)
@@ -75,26 +87,49 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        if (Schema::hasTable('profiles')) {
-            $profileData = [
-                'role' => 'user',
-                'user_id' => $user->id,
-                'district_id' => $request->input('district_id', null),
-                'dob' => $request->input('dob', null),
-                'phone' => $request->input('phone', null),
-                'company' => $request->input('company', null),
-                'nif' => $request->input('nif', null),
-                'address' => $request->input('address', null),
-                'bio' => $request->input('bio', null),
+        $profileData = [
+            'role' => $request->input('role', 'user'),
+            'user_id' => $user->id,
+            'district_id' => $request->input('district_id', null),
+            'dob' => $request->input('dob', null),
+            'phone' => $request->input('phone', null),
+            'company' => $request->input('company', null),
+            'nif' => $request->input('nif', null),
+            'address' => $request->input('address', null),
+            'bio' => $request->input('bio', null),
+        ];
+
+        $user->profile()->create($profileData);
+
+
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            $userAuth = Auth::user();
+            $userAuth->load('profile');
+
+            $userData = [
+                'id' => $userAuth->id,
+                'name' => $userAuth->name,
+                'email' => $userAuth->email,
+                'role' => $userAuth->profile->role,
+                'district_id' => $userAuth->profile->district_id,
+                'dob' => $userAuth->profile->dob,
+                'phone' => $userAuth->profile->phone,
+                'company' => $userAuth->profile->company,
+                'nif' => $userAuth->profile->nif,
+                'address' => $userAuth->profile->address,
+                'bio' => $userAuth->profile->bio,
             ];
 
-            $user->profile()->create($profileData);
+            return response()->json([
+                'message' => 'User created successfully',
+                'user' => $userData,
+                'authorization' => [
+                    'token' => $userAuth->createToken('ApiToken')->plainTextToken,
+                    'type' => 'bearer',
+                ]
+            ]);
         }
-
-        return response()->json([
-            'message' => 'User and profile created successfully',
-            'user' => $user,
-        ]);
     }
 
     public function logout()
