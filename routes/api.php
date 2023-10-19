@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserController as UC;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\CategoryController;
@@ -13,6 +13,8 @@ use App\Http\Controllers\UserSubCategoryController;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\GeneralController;
+use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +40,11 @@ Route::controller(GeneralController::class)->group(function () {
     Route::get('general/categories/getallcategories', 'getAllCategories');
 });
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::put('/updateuser', [UserController::class, 'updateUser']);
+    Route::put('/updateuser/password', [UserController::class, 'changePassword']);
+    Route::get('/admin/users/{user}', [AdminController::class, 'adminCheck']);
+});
 
 
 
@@ -55,14 +62,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('users')->group(function () {
-    Route::get('', [UserController::class, 'index']);
-    Route::get('{user}', [UserController::class, 'show']);
+    Route::get('', [UC::class, 'index']);
+    Route::get('{user}', [UC::class, 'show']);
 
     //Route::middleware('auth:sanctum')->group(function () {
-        Route::post('', [UserController::class, 'store']);
-        Route::put('{user}', [UserController::class, 'update']);
-        Route::patch('{user}', [UserController::class, 'update']);
-        Route::delete('{user}', [UserController::class, 'destroy']);
+        Route::post('', [UC::class, 'store']);
+        Route::put('{user}', [UC::class, 'update']);
+        Route::patch('{user}', [UC::class, 'update']);
+        Route::delete('{user}', [UC::class, 'destroy']);
     //});
 });
 
