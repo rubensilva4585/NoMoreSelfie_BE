@@ -16,8 +16,22 @@ class UserController extends Controller
 
         $user->update($request->only(['name']));
         $user->profile()->update($request->only(['phone', 'company', 'nif', 'address', 'bio']));
-        return response()->json(['data' => Auth::user(), 'message' => 'Update successfull'], 200);        
-    
+        $user->social()->update($request->only(['website', 'facebook', 'instagram', 'linkedin']));
+
+        $data = [
+            'id' => $user->id,
+            'name' => $user->name,
+            'company' => $user->profile->company,
+            'nif' => $user->profile->nif,
+            'address' => $user->profile->address,
+            'bio' => $user->profile->bio,
+            'website' => $user->social->website,
+            'facebook' => $user->social->facebook,
+            'instagram' => $user->social->instagram,
+            'linkedin' => $user->social->linkedin,
+        ];
+        
+        return response()->json(['data' => $data, 'message' => 'Update successfull'], 200);            
     }
 
     public function changePassword(Request $request) {

@@ -49,6 +49,11 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class);
     }
 
+    public function social()
+    {
+        return $this->hasOne(Social::class);
+    }
+
     public function userSubCategory()
     {
         return $this->hasOne(UserSubCategory::class);
