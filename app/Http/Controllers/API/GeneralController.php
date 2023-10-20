@@ -48,4 +48,35 @@ class GeneralController extends Controller
 
         return response()->json(['categories' => $formattedCategories]);
     }
+
+    public function storeRequest(Request $request)
+    {
+        $request->validate([
+            'supplier_id' => 'required|exists:profiles,id',
+            'name' => 'required|string',
+            'email' => 'required_without:phone|email',
+            'phone' => 'required_without:email|string|max:16',
+            'description' => 'nullable|string',
+        ]);
+        $supplierProfile = \App\Models\Profile::where('id', $request->supplier_id)
+            ->where('role', 'supplier')
+            ->first();
+
+        if (!$supplierProfile) {
+            return response()->json(['error' => 'Not Supplier Profile".'], 400);
+        }
+
+        $newRequest = new \App\Models\Request([
+            'supplier_id' => $request->supplier_id,
+            'name' => $request->name,
+            'date' => now(),
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'description' => $request->description,
+        ]);
+        
+        $newRequest->save();
+
+        return response()->json(['message' => 'Request Success', 'request' => $newRequest]);
+    }
 }

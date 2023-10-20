@@ -60,4 +60,17 @@ class UserController extends Controller
 
         return response()->json(['message' => 'Password changed successfully']);
     }
+
+    public function getrequests() // testar
+    {
+        $user = Auth::user();
+
+        if ($user->profile->role !== 'supplier') {
+            return response()->json(['error' => 'Only suppliers can access.'], 403);
+        }
+
+        $requests = Request::where('supplier_id', $user->profile->id)->get();
+
+        return response()->json(['requests' => $requests]);
+    }
 }

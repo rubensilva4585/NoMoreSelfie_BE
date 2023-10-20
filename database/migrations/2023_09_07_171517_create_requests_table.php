@@ -13,18 +13,16 @@ return new class extends Migration
     {
         Schema::create('requests', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('profile_id');
-            $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('subCategory_id')->nullable();
+            $table->unsignedBigInteger('supplier_id');
+            $table->string('name');
             $table->dateTime('date');
-            $table->string('address', 32)->nullable()->default(null);
-            $table->longText('description')->nullable()->default(null);
+            $table->string('email')->nullable()->default(null);
+            $table->string('phone', 16)->nullable()->default(null);
+            $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('profile_id')->references('id')->on('profiles');
-            $table->foreign('category_id')->references('id')->on('categories');
-            $table->foreign('subCategory_id')->references('id')->on('sub_categories');
+    
+            $table->foreign('supplier_id')->references('id')->on('profiles');
         });
     }
 

@@ -38,17 +38,20 @@ Route::controller(GeneralController::class)->group(function () {
     Route::get('general/districts/getalldistricts', 'getAllDistricts');
     Route::get('general/categories/getcategory/{category}', 'getCategory');
     Route::get('general/categories/getallcategories', 'getAllCategories');
+    Route::post('general/supplier/storerequest', [GeneralController::class, 'storeRequest']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::put('/updateuser', [UserController::class, 'updateUser']);
     Route::put('/updateuser/password', [UserController::class, 'changePassword']);
     Route::get('/admin/users/{user}', [AdminController::class, 'adminCheck']);
+    Route::get('/admin/supplier/{id}/requests', [AdminController::class, 'getrequests']); //testar
+
 });
 
-
-
-
+Route::controller(AuthController::class)->group(function () {
+    Route::get('supplier/requests', [UserController::class, 'getrequests']); //testar
+});
 
 
 
