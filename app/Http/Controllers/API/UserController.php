@@ -10,17 +10,18 @@ use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
-    public function updateUser(Request $request) {
+    public function updateUser(Request $request)
+    {
 
         $user = Auth::user();
 
         $user->update($request->only(['name']));
-        $user->profile()->update($request->only(['phone', 'company', 'nif', 'address', 'bio']));
-        return response()->json(['data' => Auth::user(), 'message' => 'Update successfull'], 200);        
-    
+        $user->profile()->update($request->only(['phone', 'company', 'nif', 'dob', 'address', 'bio']));
+        return response()->json(['data' => Auth::user(), 'message' => 'Update successfull'], 200);
     }
 
-    public function changePassword(Request $request) {
+    public function changePassword(Request $request)
+    {
 
         $user = Auth::user();
 
@@ -28,9 +29,9 @@ class UserController extends Controller
             'oldpassword' => 'required|string|min:6',
             'newpassword' => 'required|string|min:6',
         ]);
-    
+
         if (!Hash::check($request->input('oldpassword'), $user->password)) {
-            return response()->json(['error' => 'Invalid password'], 401);   
+            return response()->json(['error' => 'Invalid password'], 401);
         }
 
         if (Hash::check($request->newpassword, $user->password)) {
