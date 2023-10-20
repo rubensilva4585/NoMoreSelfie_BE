@@ -87,6 +87,8 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $user->social()->create();
+
         $profileData = [
             'role' => $request->input('role', 'user'),
             'user_id' => $user->id,
