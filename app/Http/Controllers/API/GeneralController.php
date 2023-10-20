@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\User;
 use App\Models\Category;
 use App\Models\District;
 use App\Http\Controllers\Controller;
@@ -78,5 +79,27 @@ class GeneralController extends Controller
         $newRequest->save();
 
         return response()->json(['message' => 'Request Success', 'request' => $newRequest]);
+    }
+
+    public function getUserInfo($id) {
+
+        $user = User::findOrFail($id);
+
+        return response()->json([
+            'id' => $user->id,
+            'name' => $user->name,
+            'company' => $user->profile->company,
+            'nif' => $user->profile->nif,
+            'dob' => $user->profile->dob,
+            'address' => $user->profile->address,
+            'bio' => $user->profile->bio,  
+            'social' => [
+                'website' => optional($user->social)->website,
+                'facebook' => optional($user->social)->facebook,
+                'instagram' => optional($user->social)->instagram,
+                'linkedin' => optional($user->social)->linkedin,
+                'pinterest' => optional($user->social)->pinterest,
+            ],
+        ]);
     }
 }

@@ -12,7 +12,6 @@ class UserController extends Controller
 {
     public function updateUser(Request $request)
     {
-
         $user = Auth::user();
 
         $user->update($request->only(['name']));
@@ -39,7 +38,6 @@ class UserController extends Controller
 
     public function changePassword(Request $request)
     {
-
         $user = Auth::user();
 
         $request->validate([
@@ -72,5 +70,31 @@ class UserController extends Controller
         $requests = Request::where('supplier_id', $user->profile->id)->get();
 
         return response()->json(['requests' => $requests]);
+    }
+
+    public function getLoggedUserInfo() {
+
+        $user = Auth::user();
+
+        if ($user) {
+            return response()->json([
+                'id' => $user->id,
+                'name' => $user->name,
+                'company' => $user->profile->company,
+                'nif' => $user->profile->nif,
+                'dob' => $user->profile->dob,
+                'address' => $user->profile->address,
+                'bio' => $user->profile->bio,
+                'social' =>[
+                    'website' => optional($user->social)->website,
+                    'facebook' => optional($user->social)->facebook,
+                    'instagram' => optional($user->social)->instagram,
+                    'linkedin' => optional($user->social)->linkedin,
+                    'pinterest' => optional($user->social)->pinterest,
+                ]
+            ], 200);
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
     }
 }

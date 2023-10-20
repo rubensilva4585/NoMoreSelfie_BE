@@ -53,6 +53,10 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('supplier/requests', [UserController::class, 'getrequests']); //testar
 });
 
+Route::get('/user/{user_id}', [GeneralController::class, 'getUserInfo']);
+Route::get('/user', [UserController::class, 'getLoggedUserInfo'])->middleware('auth:sanctum');
+
+
 
 
 
@@ -60,9 +64,9 @@ Route::controller(AuthController::class)->group(function () {
 
 
 // ROTAS TESTE CRUD
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::prefix('users')->group(function () {
     Route::get('', [UC::class, 'index']);
