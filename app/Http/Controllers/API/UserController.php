@@ -17,7 +17,7 @@ class UserController extends Controller
 
         $user->update($request->only(['name']));
         $user->profile()->update($request->only(['phone', 'company', 'nif', 'dob', 'address', 'bio']));
-        $user->social()->update($request->only(['website', 'facebook', 'instagram', 'linkedin']));
+        $user->social()->update($request->only(['website', 'facebook', 'instagram', 'linkedin', 'pinterest']));
 
         $data = [
             'id' => $user->id,
@@ -31,6 +31,7 @@ class UserController extends Controller
             'facebook' => $user->social->facebook,
             'instagram' => $user->social->instagram,
             'linkedin' => $user->social->linkedin,
+            'pinterest' => $user->social->pinterest,
         ];
 
         return response()->json(['data' => $data, 'message' => 'Update successfull'], 200);

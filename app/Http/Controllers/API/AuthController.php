@@ -87,7 +87,8 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $user->social()->create();
+        if($request->role == 'supplier')
+            $user->social()->create();
 
         $profileData = [
             'role' => $request->input('role', 'user'),
