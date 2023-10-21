@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\UserSubCategory;
 
 class UserController extends Controller
 {
@@ -20,6 +21,7 @@ class UserController extends Controller
 
         $data = [
             'id' => $user->id,
+            'email' => $user->email,
             'name' => $user->name,
             'company' => $user->profile->company,
             'nif' => $user->profile->nif,
@@ -59,7 +61,7 @@ class UserController extends Controller
         return response()->json(['message' => 'Password changed successfully']);
     }
 
-    public function getrequests() // testar
+    public function getLoggedUserRequests() // testar
     {
         $user = Auth::user();
 
@@ -97,4 +99,19 @@ class UserController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
     }
+
+
+    // public function getLoggedUserServices() // testar
+    // {
+    //     $user = Auth::user();
+
+    //     if ($user->profile->role !== 'supplier') {
+    //         return response()->json(['error' => 'Only suppliers can access.'], 403);
+    //     }
+
+    //     $services = UserSubCategory::where('user_id', $user->profile->id)->get();
+
+    //     return response()->json(['services' => $services]);
+    // }
+
 }

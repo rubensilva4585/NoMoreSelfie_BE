@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class UserSubCategory extends Model
 {
     use HasFactory, SoftDeletes;
-    
+
     protected $primaryKey = ['user_id', 'subcategory_id'];
 
     public $incrementing = false;

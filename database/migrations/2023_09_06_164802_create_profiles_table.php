@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string('company', 50)->nullable()->default(null);
             $table->string('nif', 9)->nullable();
             $table->string('address', 100)->nullable()->default(null);
-            $table->longText('bio')->nullable()->default(null);
+            $table->text('bio')->nullable()->default(null);
+            $table->longText('service_description')->nullable()->default(null);
             $table->boolean('verified')->default(false);
             $table->timestamps();
             $table->softDeletes();

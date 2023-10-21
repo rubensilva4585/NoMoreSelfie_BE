@@ -28,10 +28,11 @@ class SocialFactory extends Factory
             $this->selectedUsers[] = $user->id;
             return [
                 'user_id' => $user->id,
-                'website' => $this->faker->url,
-                'facebook' => $this->faker->url,
-                'instagram' => $this->faker->url,
-                'linkedin' => $this->faker->url,
+                'website' => "website$user->id.com",
+                'facebook' => "fb$user->id",
+                'instagram' => "insta$user->id",
+                'linkedin' => "linkdin$user->id",
+                'pinterest' => "pinterest$user->id",
             ];
         } else {
             // Handle the case where there are not enough unique suppliers users.

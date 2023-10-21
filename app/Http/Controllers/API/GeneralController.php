@@ -75,7 +75,7 @@ class GeneralController extends Controller
             'phone' => $request->phone,
             'description' => $request->description,
         ]);
-        
+
         $newRequest->save();
 
         return response()->json(['message' => 'Request Success', 'request' => $newRequest]);
@@ -87,12 +87,16 @@ class GeneralController extends Controller
 
         return response()->json([
             'id' => $user->id,
+            'role' => $user->profile->role,
+            'email' => $user->email,
             'name' => $user->name,
             'company' => $user->profile->company,
             'nif' => $user->profile->nif,
             'dob' => $user->profile->dob,
             'address' => $user->profile->address,
-            'bio' => $user->profile->bio,  
+            'bio' => $user->profile->bio,
+            'phone' => $user->profile->phone,
+            'service_description' => $user->profile->service_description,
             'social' => [
                 'website' => optional($user->social)->website,
                 'facebook' => optional($user->social)->facebook,
@@ -101,5 +105,45 @@ class GeneralController extends Controller
                 'pinterest' => optional($user->social)->pinterest,
             ],
         ]);
+    }
+
+    // public function getUserServices($id) {
+
+    //     $user = User::findOrFail($id);
+
+    //     $services = $user->userSubCategory->map(function ($service) {
+    //         return [
+    //             'user_id' => $service->user_id,
+    //             'category_name' => $service->subCategory->category->name,
+    //             'subcategory_name' => $service->subCategory->name,
+    //             'startPrice' => $service->startPrice,
+    //             'endPrice' => $service->endPrice,
+    //         ];
+    //     });
+
+    //     return response()->json($services);
+    // }
+    public function getSupplierServices($id) {
+        $user = User::findOrFail($id);
+
+        $services = $user->userSubCategory->groupBy(function ($service) {
+            return $service->subCategory->category->id;
+        })->map(function ($subcategories, $categoryId) {
+            $category = Category::find($categoryId);
+            return [
+                'category_id' => $category->id,
+                'category_name' => $category->name,
+                'subcategories' => $subcategories->map(function ($subcategory) {
+                    return [
+                        'id' => $subcategory->subCategory->id,
+                        'name' => $subcategory->subCategory->name,
+                        'startPrice' => $subcategory->startPrice,
+                        'endPrice' => $subcategory->endPrice,
+                    ];
+                })
+            ];
+        });
+
+        return response()->json($services->values());
     }
 }

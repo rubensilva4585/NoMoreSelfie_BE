@@ -56,6 +56,6 @@ class User extends Authenticatable
 
     public function userSubCategory()
     {
-        return $this->hasOne(UserSubCategory::class);
+        return $this->hasMany(UserSubCategory::class);
     }
 }

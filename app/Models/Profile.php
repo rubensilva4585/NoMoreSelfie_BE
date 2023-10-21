@@ -22,6 +22,7 @@ class Profile extends Model
         'nif',
         'address',
         'bio',
+        'service_description',
     ];
 
     public function request()

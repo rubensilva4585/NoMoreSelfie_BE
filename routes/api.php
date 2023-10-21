@@ -56,6 +56,8 @@ Route::controller(AuthController::class)->group(function () {
 Route::get('/user/{user_id}', [GeneralController::class, 'getUserInfo']);
 Route::get('/user', [UserController::class, 'getLoggedUserInfo'])->middleware('auth:sanctum');
 
+Route::get('/user/{user_id}/services', [GeneralController::class, 'getSupplierServices']);
+
 
 
 

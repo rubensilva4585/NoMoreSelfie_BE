@@ -35,6 +35,7 @@ class ProfileFactory extends Factory
                 'nif' => rand(100000000, 999999999),
                 'address' => $this->faker->address,
                 'bio' => $this->faker->paragraph,
+                'service_description' => '<p>Lorem ipsum dolor sit amet, <b>consectetur</b> adipiscing elit.</p> <p>Quisque eget ligula non metus varius sollicitudin.</p>',
             ];
         } else {
             // Handle the case where there are not enough unique suppliers users.
