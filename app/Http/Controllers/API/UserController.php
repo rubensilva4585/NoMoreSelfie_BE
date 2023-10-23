@@ -7,7 +7,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Image;
 use App\Models\UserSubCategory;
+use Storage;
+use Str;
 
 class UserController extends Controller
 {
@@ -74,7 +77,8 @@ class UserController extends Controller
         return response()->json(['requests' => $requests]);
     }
 
-    public function getLoggedUserInfo() {
+    public function getLoggedUserInfo()
+    {
 
         $user = Auth::user();
 
@@ -87,7 +91,7 @@ class UserController extends Controller
                 'dob' => $user->profile->dob,
                 'address' => $user->profile->address,
                 'bio' => $user->profile->bio,
-                'social' =>[
+                'social' => [
                     'website' => optional($user->social)->website,
                     'facebook' => optional($user->social)->facebook,
                     'instagram' => optional($user->social)->instagram,
@@ -101,17 +105,57 @@ class UserController extends Controller
     }
 
 
-    // public function getLoggedUserServices() // testar
-    // {
-    //     $user = Auth::user();
+    public function setSupplierImages(Request $request)
+    {
+        $user = Auth::user();
 
-    //     if ($user->profile->role !== 'supplier') {
-    //         return response()->json(['error' => 'Only suppliers can access.'], 403);
-    //     }
+        $existingImageCount = $user->images->count();
+        $newImageCount = count($request->file('images'));
+        if ($existingImageCount + $newImageCount > 10) {
+            return response()->json(['error' => 'Limite 10 imagens por usuario!'], 400);
+        }
 
-    //     $services = UserSubCategory::where('user_id', $user->profile->id)->get();
+        $publicStorage = Storage::disk('public');
 
-    //     return response()->json(['services' => $services]);
-    // }
+        if ($request->hasFile('images')) {
+            $images = $request->file('images');
 
+            foreach ($images as $image) {
+                $imageName = $user->id . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+                $path = $publicStorage->putFileAs('images/' . $user->id, $image, $imageName);
+
+                $imageModel = new Image(['path' => $path]);
+                $user->images()->save($imageModel);
+            }
+
+            return response()->json(['message' => 'Imagens salvas com sucesso', 'images' => $user->images], 201);
+        }
+
+        return response()->json(['message' => 'Nenhuma imagem foi enviada'], 400);
+    }
+
+    public function removeSupplierImage($imageId)
+    {
+        $user = Auth::user();
+        $image = $user->images()->find($imageId);
+
+        if (!$image) {
+            return response()->json(['error' => 'Imagem não encontrada'], 404);
+        }
+
+        Storage::disk('public')->delete($image->path);
+
+        $image->delete();
+
+        return response()->json(['message' => 'Imagem removida com sucesso'], 200);
+    }
+
+    public function getSupplierImages()
+    {
+        $user = Auth::user();
+        // if (!$user) {
+        //     return response()->json(['error' => 'Usuário não encontrado'], 404);
+        // }
+        return response()->json($user->images, 200);
+    }
 }

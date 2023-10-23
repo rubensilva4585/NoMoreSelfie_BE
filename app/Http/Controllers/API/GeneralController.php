@@ -31,7 +31,6 @@ class GeneralController extends Controller
         } else {
             return response()->json(['error' => 'Category not found'], 404);
         }
-
     }
 
     public function getAllCategories()
@@ -81,7 +80,8 @@ class GeneralController extends Controller
         return response()->json(['message' => 'Request Success', 'request' => $newRequest]);
     }
 
-    public function getUserInfo($id) {
+    public function getUserInfo($id)
+    {
 
         $user = User::findOrFail($id);
 
@@ -107,23 +107,8 @@ class GeneralController extends Controller
         ]);
     }
 
-    // public function getUserServices($id) {
-
-    //     $user = User::findOrFail($id);
-
-    //     $services = $user->userSubCategory->map(function ($service) {
-    //         return [
-    //             'user_id' => $service->user_id,
-    //             'category_name' => $service->subCategory->category->name,
-    //             'subcategory_name' => $service->subCategory->name,
-    //             'startPrice' => $service->startPrice,
-    //             'endPrice' => $service->endPrice,
-    //         ];
-    //     });
-
-    //     return response()->json($services);
-    // }
-    public function getSupplierServices($id) {
+    public function getSupplierServices($id)
+    {
         $user = User::findOrFail($id);
 
         $services = $user->userSubCategory->groupBy(function ($service) {
@@ -145,5 +130,16 @@ class GeneralController extends Controller
         });
 
         return response()->json($services->values());
+    }
+
+    public function getSupplierImages($userId)
+    {
+        $user = User::find($userId);
+
+        if (!$user) {
+            return response()->json(['error' => 'Usuário não encontrado'], 404);
+        }
+
+        return response()->json($user->images, 200);
     }
 }
