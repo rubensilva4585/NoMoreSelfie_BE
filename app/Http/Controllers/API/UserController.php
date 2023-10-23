@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
+use App\Models\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Image;
 use App\Models\UserSubCategory;
@@ -65,9 +65,17 @@ class UserController extends Controller
         return response()->json(['message' => 'Password changed successfully']);
     }
 
-    public function getLoggedUserRequests() // testar
+    public function getrequests()
     {
         $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(['error' => 'Not authenticated user.'], 401);
+        }
+
+        if (!$user->profile) {
+            return response()->json(['error' => 'Profile doesnt exist.'], 403);
+        }
 
         if ($user->profile->role !== 'supplier') {
             return response()->json(['error' => 'Only suppliers can access.'], 403);

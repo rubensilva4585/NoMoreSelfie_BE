@@ -25,7 +25,7 @@ class AdminController extends Controller
         }
     }
 
-    public function getrequests($supplierId) // testar
+    public function getrequests($supplierId)
     {
         if (Auth::user()->profile->role !== 'admin') {
             return response()->json(['error' => 'Only Admin can access.'], 403);
