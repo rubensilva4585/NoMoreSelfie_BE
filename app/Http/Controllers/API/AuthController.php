@@ -35,15 +35,22 @@ class AuthController extends Controller
             $userData = [
                 'id' => $user->id,
                 'name' => $user->name,
-                'email' => $user->email,
                 'role' => $user->profile->role,
-                'district_id' => $user->profile->district_id,
-                'dob' => $user->profile->dob,
+                'email' => $user->email,
                 'phone' => $user->profile->phone,
                 'company' => $user->profile->company,
                 'nif' => $user->profile->nif,
+                'dob' => $user->profile->dob,
                 'address' => $user->profile->address,
                 'bio' => $user->profile->bio,
+                'service_description' => $user->profile->service_description,
+                'social' => [
+                    'website' => optional($user->social)->website,
+                    'facebook' => optional($user->social)->facebook,
+                    'instagram' => optional($user->social)->instagram,
+                    'linkedin' => optional($user->social)->linkedin,
+                    'pinterest' => optional($user->social)->pinterest,
+                ],
             ];
 
             return response()->json([
@@ -111,17 +118,24 @@ class AuthController extends Controller
             $userAuth->load('profile');
 
             $userData = [
-                'id' => $userAuth->id,
-                'name' => $userAuth->name,
-                'email' => $userAuth->email,
-                'role' => $userAuth->profile->role,
-                'district_id' => $userAuth->profile->district_id,
-                'dob' => $userAuth->profile->dob,
-                'phone' => $userAuth->profile->phone,
-                'company' => $userAuth->profile->company,
-                'nif' => $userAuth->profile->nif,
-                'address' => $userAuth->profile->address,
-                'bio' => $userAuth->profile->bio,
+                'id' => $user->id,
+                'name' => $user->name,
+                'role' => $user->profile->role,
+                'email' => $user->email,
+                'phone' => $user->profile->phone,
+                'company' => $user->profile->company,
+                'nif' => $user->profile->nif,
+                'dob' => $user->profile->dob,
+                'address' => $user->profile->address,
+                'bio' => $user->profile->bio,
+                'service_description' => $user->profile->service_description,
+                'social' => [
+                    'website' => optional($user->social)->website,
+                    'facebook' => optional($user->social)->facebook,
+                    'instagram' => optional($user->social)->instagram,
+                    'linkedin' => optional($user->social)->linkedin,
+                    'pinterest' => optional($user->social)->pinterest,
+                ],
             ];
 
             return response()->json([

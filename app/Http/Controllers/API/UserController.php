@@ -5,12 +5,14 @@ namespace App\Http\Controllers\API;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Request;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Image;
 use App\Models\UserSubCategory;
 use Storage;
 use Str;
+use App\Models\Request as RequestModel;
+
 
 class UserController extends Controller
 {
@@ -22,24 +24,28 @@ class UserController extends Controller
         $user->profile()->update($request->only(['phone', 'company', 'nif', 'dob', 'address', 'bio', 'service_description']));
         $user->social()->update($request->only(['website', 'facebook', 'instagram', 'linkedin', 'pinterest']));
 
-        $data = [
+        $userData = [
             'id' => $user->id,
-            'email' => $user->email,
             'name' => $user->name,
+            'role' => $user->profile->role,
+            'email' => $user->email,
+            'phone' => $user->profile->phone,
             'company' => $user->profile->company,
             'nif' => $user->profile->nif,
             'dob' => $user->profile->dob,
             'address' => $user->profile->address,
-            'service_description' => $user->profile->service_description,
             'bio' => $user->profile->bio,
-            'website' => $user->social->website,
-            'facebook' => $user->social->facebook,
-            'instagram' => $user->social->instagram,
-            'linkedin' => $user->social->linkedin,
-            'pinterest' => $user->social->pinterest,
+            'service_description' => $user->profile->service_description,
+            'social' => [
+                'website' => optional($user->social)->website,
+                'facebook' => optional($user->social)->facebook,
+                'instagram' => optional($user->social)->instagram,
+                'linkedin' => optional($user->social)->linkedin,
+                'pinterest' => optional($user->social)->pinterest,
+            ],
         ];
 
-        return response()->json(['data' => $data, 'message' => 'Update successfull'], 200);
+        return response()->json(['user' => $userData, 'message' => 'Update successfull'], 200);
     }
 
     public function changePassword(Request $request)
@@ -81,21 +87,22 @@ class UserController extends Controller
             return response()->json(['error' => 'Only suppliers can access.'], 403);
         }
 
-        $requests = Request::where('supplier_id', $user->profile->id)->get();
+        $requests = RequestModel::where('supplier_id', $user->profile->id)->get();
 
         return response()->json(['requests' => $requests]);
     }
 
     public function getLoggedUserInfo()
     {
-
         $user = Auth::user();
 
         if ($user) {
             return response()->json([
                 'id' => $user->id,
                 'name' => $user->name,
-                'name' => $user->email,
+                'role' => $user->profile->role,
+                'email' => $user->email,
+                'phone' => $user->profile->phone,
                 'company' => $user->profile->company,
                 'nif' => $user->profile->nif,
                 'dob' => $user->profile->dob,

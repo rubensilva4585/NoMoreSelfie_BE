@@ -87,15 +87,15 @@ class GeneralController extends Controller
 
         return response()->json([
             'id' => $user->id,
+            'name' => $user->name,
             'role' => $user->profile->role,
             'email' => $user->email,
-            'name' => $user->name,
+            'phone' => $user->profile->phone,
             'company' => $user->profile->company,
             'nif' => $user->profile->nif,
             'dob' => $user->profile->dob,
             'address' => $user->profile->address,
             'bio' => $user->profile->bio,
-            'phone' => $user->profile->phone,
             'service_description' => $user->profile->service_description,
             'social' => [
                 'website' => optional($user->social)->website,
