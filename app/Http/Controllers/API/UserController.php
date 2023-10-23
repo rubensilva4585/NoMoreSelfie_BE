@@ -15,8 +15,8 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        $user->update($request->only(['name']));
-        $user->profile()->update($request->only(['phone', 'company', 'nif', 'dob', 'address', 'bio']));
+        $user->update($request->only(['name', 'email']));
+        $user->profile()->update($request->only(['phone', 'company', 'nif', 'dob', 'address', 'bio', 'service_description']));
         $user->social()->update($request->only(['website', 'facebook', 'instagram', 'linkedin', 'pinterest']));
 
         $data = [
@@ -27,6 +27,7 @@ class UserController extends Controller
             'nif' => $user->profile->nif,
             'dob' => $user->profile->dob,
             'address' => $user->profile->address,
+            'service_description' => $user->profile->service_description,
             'bio' => $user->profile->bio,
             'website' => $user->social->website,
             'facebook' => $user->social->facebook,
@@ -74,7 +75,8 @@ class UserController extends Controller
         return response()->json(['requests' => $requests]);
     }
 
-    public function getLoggedUserInfo() {
+    public function getLoggedUserInfo()
+    {
 
         $user = Auth::user();
 
@@ -87,7 +89,7 @@ class UserController extends Controller
                 'dob' => $user->profile->dob,
                 'address' => $user->profile->address,
                 'bio' => $user->profile->bio,
-                'social' =>[
+                'social' => [
                     'website' => optional($user->social)->website,
                     'facebook' => optional($user->social)->facebook,
                     'instagram' => optional($user->social)->instagram,
