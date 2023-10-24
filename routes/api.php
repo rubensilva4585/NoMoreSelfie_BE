@@ -39,21 +39,30 @@ Route::controller(GeneralController::class)->group(function () {
     Route::get('general/categories/getcategory/{category}', 'getCategory');
     Route::get('general/categories/getallcategories', 'getAllCategories');
     Route::post('general/supplier/storerequest', 'storeRequest');
+
+    Route::get('/user/{user_id}', 'getUserInfo');
+
     Route::get('/supplier/{user_id}/services', 'getSupplierServices');
     Route::get('/supplier/{user_id}/images', 'getSupplierImages');
-    Route::get('/user/{user_id}', 'getUserInfo');
+
     Route::post('general/supplier/storerequest', [GeneralController::class, 'storeRequest']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', [UserController::class, 'getLoggedUserInfo']);
+
     Route::put('/updateuser', [UserController::class, 'updateUser']);
     Route::put('/updateuser/password', [UserController::class, 'changePassword']);
+    Route::post('/updateuser/avatar', [UserController::class, 'updateProfileImage']);
+    Route::delete('/updateuser/avatar', [UserController::class, 'removeProfileImage']);
+
     Route::get('/admin/users/{user}', [AdminController::class, 'adminCheck']);
     Route::get('/admin/supplier/{id}/requests', [AdminController::class, 'getrequests']); //testar
+
     Route::get('/supplier/images', [UserController::class, 'getSupplierImages']);
     Route::post('/supplier/images', [UserController::class, 'setSupplierImages']);
     Route::delete('/supplier/images/{imageId}', [UserController::class, 'removeSupplierImage']);
-    Route::get('/user', [UserController::class, 'getLoggedUserInfo']);
+
     Route::get('supplier/requests', [UserController::class, 'getrequests']);
 });
 

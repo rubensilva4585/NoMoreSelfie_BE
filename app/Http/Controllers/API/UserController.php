@@ -36,6 +36,7 @@ class UserController extends Controller
             'address' => $user->profile->address,
             'bio' => $user->profile->bio,
             'service_description' => $user->profile->service_description,
+            'avatar' => $user->profile->avatar,
             'social' => [
                 'website' => optional($user->social)->website,
                 'facebook' => optional($user->social)->facebook,
@@ -108,13 +109,15 @@ class UserController extends Controller
                 'dob' => $user->profile->dob,
                 'address' => $user->profile->address,
                 'bio' => $user->profile->bio,
+                'service_description' => $user->profile->service_description,
+                'avatar' => $user->profile->avatar,
                 'social' => [
                     'website' => optional($user->social)->website,
                     'facebook' => optional($user->social)->facebook,
                     'instagram' => optional($user->social)->instagram,
                     'linkedin' => optional($user->social)->linkedin,
                     'pinterest' => optional($user->social)->pinterest,
-                ]
+                ],
             ], 200);
         } else {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -174,5 +177,51 @@ class UserController extends Controller
         //     return response()->json(['error' => 'Usuário não encontrado'], 404);
         // }
         return response()->json($user->images, 200);
+    }
+
+
+    public function updateProfileImage(Request $request)
+    {
+        $user = Auth::user();
+
+        if ($request->hasFile('avatar')) {
+            // $request->validate([
+            //     'avatar' => 'image|mimes:jpeg,png,jpg|max:2048', // Exemplo de regras de validação
+            // ]);
+
+            $publicStorage = Storage::disk('public');
+
+            if ($user->profile->avatar) {
+                $publicStorage->delete($user->profile->avatar);
+            }
+
+            $image = $request->file('avatar');
+            $imageName = $user->id . '_avatar.' . $image->getClientOriginalExtension();
+            $path = $image->storeAs("images/{$user->id}/avatar", $imageName, 'public');
+
+            $user->profile->avatar = $path;
+            $user->profile->save();
+
+            return response()->json(['message' => 'Imagem de perfil atualizada com sucesso', 'avatar' => $path], 201);
+        }
+
+        return response()->json(['message' => 'Nenhuma imagem foi enviada'], 400);
+    }
+
+    public function removeProfileImage()
+    {
+        $user = Auth::user();
+        $publicStorage = Storage::disk('public');
+
+        if ($user->profile->avatar) {
+            $publicStorage->delete($user->profile->avatar);
+
+            $user->profile->avatar = null;
+            $user->profile->save();
+
+            return response()->json(['message' => 'Imagem de perfil removida com sucesso'], 200);
+        }
+
+        return response()->json(['message' => 'Nenhuma imagem de perfil para remover'], 404);
     }
 }

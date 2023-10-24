@@ -24,6 +24,7 @@ return new class extends Migration
             $table->text('bio')->nullable()->default(null);
             $table->longText('service_description')->nullable()->default(null);
             $table->boolean('verified')->default(false);
+            $table->string('avatar')->nullable()->default(null);
             $table->timestamps();
             $table->softDeletes();
 

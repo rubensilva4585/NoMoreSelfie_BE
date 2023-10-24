@@ -23,6 +23,7 @@ class Profile extends Model
         'address',
         'bio',
         'service_description',
+        'avatar',
     ];
 
     public function request()
