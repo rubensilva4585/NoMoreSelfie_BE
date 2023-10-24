@@ -15,7 +15,7 @@ class UserSubCategorySeeder extends Seeder
     public function run(): void
     {
         DB::table('user_sub_categories')->insert([
-            'user_id' => 1,
+            'user_id' => 2,
             'subcategory_id' => 1,
             'startPrice' => 500,
             'endPrice' => 700,
@@ -23,7 +23,7 @@ class UserSubCategorySeeder extends Seeder
             'updated_at' => now(),
         ]);
         DB::table('user_sub_categories')->insert([
-            'user_id' => 1,
+            'user_id' => 2,
             'subcategory_id' => 2,
             'startPrice' => 500,
             'endPrice' => 700,
@@ -31,7 +31,7 @@ class UserSubCategorySeeder extends Seeder
             'updated_at' => now(),
         ]);
         DB::table('user_sub_categories')->insert([
-            'user_id' => 1,
+            'user_id' => 2,
             'subcategory_id' => 3,
             'startPrice' => 500,
             'endPrice' => 700,
@@ -39,7 +39,7 @@ class UserSubCategorySeeder extends Seeder
             'updated_at' => now(),
         ]);
         DB::table('user_sub_categories')->insert([
-            'user_id' => 1,
+            'user_id' => 2,
             'subcategory_id' => 4,
             'startPrice' => 500,
             'endPrice' => 700,
@@ -47,7 +47,7 @@ class UserSubCategorySeeder extends Seeder
             'updated_at' => now(),
         ]);
         DB::table('user_sub_categories')->insert([
-            'user_id' => 1,
+            'user_id' => 2,
             'subcategory_id' => 5,
             'startPrice' => 500,
             'endPrice' => 700,
@@ -56,7 +56,7 @@ class UserSubCategorySeeder extends Seeder
         ]);
 
         DB::table('user_sub_categories')->insert([
-            'user_id' => 1,
+            'user_id' => 2,
             'subcategory_id' => 6,
             'startPrice' => 500,
             'endPrice' => 700,

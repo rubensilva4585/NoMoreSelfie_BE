@@ -16,6 +16,37 @@ use App\Models\Request as RequestModel;
 
 class UserController extends Controller
 {
+    public function getLoggedUserInfo()
+    {
+        $user = Auth::user();
+
+        if ($user) {
+            return response()->json([
+                'id' => $user->id,
+                'name' => $user->name,
+                'role' => $user->profile->role,
+                'email' => $user->email,
+                'phone' => $user->profile->phone,
+                'company' => $user->profile->company,
+                'nif' => $user->profile->nif,
+                'dob' => $user->profile->dob,
+                'address' => $user->profile->address,
+                'bio' => $user->profile->bio,
+                'service_description' => $user->profile->service_description,
+                'avatar' => $user->profile->avatar,
+                'social' => [
+                    'website' => optional($user->social)->website,
+                    'facebook' => optional($user->social)->facebook,
+                    'instagram' => optional($user->social)->instagram,
+                    'linkedin' => optional($user->social)->linkedin,
+                    'pinterest' => optional($user->social)->pinterest,
+                ],
+            ], 200);
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+    }
+
     public function updateUser(Request $request)
     {
         $user = Auth::user();
@@ -59,11 +90,7 @@ class UserController extends Controller
         ]);
 
         if (!Hash::check($request->input('oldpassword'), $user->password)) {
-            return response()->json(['error' => 'Invalid password'], 401);
-        }
-
-        if (Hash::check($request->newpassword, $user->password)) {
-            return response()->json(['error' => 'New password cannot be the same as your current password.'], 400);
+            return response()->json(['error' => 'Password atual invalida'], 401);
         }
 
         $user->password = Hash::make($request->newpassword);
@@ -72,6 +99,23 @@ class UserController extends Controller
         return response()->json(['message' => 'Password changed successfully']);
     }
 
+    public function deleteUserAccount()
+    {
+        $user = Auth::user();
+
+        try
+        {
+            $user->delete();
+            return response()->json(['message' => 'Deleted'], 205);
+        }
+        catch (Exception $exception)
+        {
+            return response()->json(['error' => $exception], 500);
+        }
+    }
+
+
+    // Requested Services
     public function getrequests()
     {
         $user = Auth::user();
@@ -93,38 +137,8 @@ class UserController extends Controller
         return response()->json(['requests' => $requests]);
     }
 
-    public function getLoggedUserInfo()
-    {
-        $user = Auth::user();
 
-        if ($user) {
-            return response()->json([
-                'id' => $user->id,
-                'name' => $user->name,
-                'role' => $user->profile->role,
-                'email' => $user->email,
-                'phone' => $user->profile->phone,
-                'company' => $user->profile->company,
-                'nif' => $user->profile->nif,
-                'dob' => $user->profile->dob,
-                'address' => $user->profile->address,
-                'bio' => $user->profile->bio,
-                'service_description' => $user->profile->service_description,
-                'avatar' => $user->profile->avatar,
-                'social' => [
-                    'website' => optional($user->social)->website,
-                    'facebook' => optional($user->social)->facebook,
-                    'instagram' => optional($user->social)->instagram,
-                    'linkedin' => optional($user->social)->linkedin,
-                    'pinterest' => optional($user->social)->pinterest,
-                ],
-            ], 200);
-        } else {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-    }
-
-
+    // Portfolio Images
     public function setSupplierImages(Request $request)
     {
         $user = Auth::user();
@@ -180,6 +194,7 @@ class UserController extends Controller
     }
 
 
+    // Profile Picture
     public function updateProfileImage(Request $request)
     {
         $user = Auth::user();
@@ -196,7 +211,7 @@ class UserController extends Controller
             }
 
             $image = $request->file('avatar');
-            $imageName = $user->id . '_avatar.' . $image->getClientOriginalExtension();
+            $imageName = $user->id . '_' . Str::random(10) . '_avatar.' . $image->getClientOriginalExtension();
             $path = $image->storeAs("images/{$user->id}/avatar", $imageName, 'public');
 
             $user->profile->avatar = $path;

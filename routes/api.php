@@ -50,6 +50,7 @@ Route::controller(GeneralController::class)->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [UserController::class, 'getLoggedUserInfo']);
+    Route::delete('/user', [UserController::class, 'deleteUserAccount']);
 
     Route::put('/updateuser', [UserController::class, 'updateUser']);
     Route::put('/updateuser/password', [UserController::class, 'changePassword']);

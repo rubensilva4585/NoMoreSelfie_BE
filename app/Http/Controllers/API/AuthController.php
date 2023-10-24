@@ -44,6 +44,7 @@ class AuthController extends Controller
                 'address' => $user->profile->address,
                 'bio' => $user->profile->bio,
                 'service_description' => $user->profile->service_description,
+                'avatar' => $user->profile->avatar,
                 'social' => [
                     'website' => optional($user->social)->website,
                     'facebook' => optional($user->social)->facebook,
@@ -129,6 +130,7 @@ class AuthController extends Controller
                 'address' => $user->profile->address,
                 'bio' => $user->profile->bio,
                 'service_description' => $user->profile->service_description,
+                'avatar' => $user->profile->avatar,
                 'social' => [
                     'website' => optional($user->social)->website,
                     'facebook' => optional($user->social)->facebook,
