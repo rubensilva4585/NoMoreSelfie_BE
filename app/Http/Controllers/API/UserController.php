@@ -34,6 +34,7 @@ class UserController extends Controller
                 'bio' => $user->profile->bio,
                 'service_description' => $user->profile->service_description,
                 'avatar' => $user->profile->avatar,
+                'district' => $user->profile->district->only(['id', 'name']),
                 'social' => [
                     'website' => optional($user->social)->website,
                     'facebook' => optional($user->social)->facebook,
@@ -52,7 +53,7 @@ class UserController extends Controller
         $user = Auth::user();
 
         $user->update($request->only(['name', 'email']));
-        $user->profile()->update($request->only(['phone', 'company', 'nif', 'dob', 'address', 'bio', 'service_description']));
+        $user->profile()->update($request->only(['phone', 'company', 'nif', 'dob', 'address', 'bio', 'service_description', 'district_id']));
         $user->social()->update($request->only(['website', 'facebook', 'instagram', 'linkedin', 'pinterest']));
 
         $userData = [
@@ -68,6 +69,7 @@ class UserController extends Controller
             'bio' => $user->profile->bio,
             'service_description' => $user->profile->service_description,
             'avatar' => $user->profile->avatar,
+            'district' => $user->profile->district->only(['id', 'name']),
             'social' => [
                 'website' => optional($user->social)->website,
                 'facebook' => optional($user->social)->facebook,

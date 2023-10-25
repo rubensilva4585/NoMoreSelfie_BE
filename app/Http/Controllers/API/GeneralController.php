@@ -98,6 +98,7 @@ class GeneralController extends Controller
             'bio' => $user->profile->bio,
             'service_description' => $user->profile->service_description,
             'avatar' => $user->profile->avatar,
+            'district' => $user->profile->district->only(['id', 'name']),
             'social' => [
                 'website' => optional($user->social)->website,
                 'facebook' => optional($user->social)->facebook,
