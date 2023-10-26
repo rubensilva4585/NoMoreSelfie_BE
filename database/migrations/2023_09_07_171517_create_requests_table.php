@@ -15,13 +15,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('supplier_id');
             $table->string('name');
-            $table->dateTime('date');
             $table->string('email')->nullable()->default(null);
             $table->string('phone', 16)->nullable()->default(null);
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
-    
+
             $table->foreign('supplier_id')->references('id')->on('profiles');
         });
     }

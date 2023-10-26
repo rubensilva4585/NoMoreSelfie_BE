@@ -38,16 +38,15 @@ Route::controller(GeneralController::class)->group(function () {
     Route::get('general/districts/getalldistricts', 'getAllDistricts');
     Route::get('general/categories/getcategory/{category}', 'getCategory');
     Route::get('general/categories/getallcategories', 'getAllCategories');
-    Route::post('general/supplier/storerequest', 'storeRequest');
 
     Route::get('/user/{user_id}', 'getUserInfo');
 
     Route::get('/supplier/{user_id}/services', 'getSupplierServices');
     Route::get('/supplier/{user_id}/images', 'getSupplierImages');
 
-    Route::post('general/supplier/storerequest', [GeneralController::class, 'storeRequest']);
+    Route::post('general/supplier/storerequest', 'storeRequest');
 
-    Route::get('supplier/requests/districts/{user_id}', [GeneralController::class, 'getSupplierDistricts']);
+    Route::get('supplier/requests/districts/{user_id}', 'getSupplierDistricts');
 });
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -66,7 +65,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/supplier/images', [UserController::class, 'setSupplierImages']);
     Route::delete('/supplier/images/{imageId}', [UserController::class, 'removeSupplierImage']);
 
-    Route::get('supplier/requests', [UserController::class, 'getrequests']);
+    Route::get('supplier/requests', [UserController::class, 'getSupplierRequests']);
 
     Route::put('/updateuser/districts', [UserController::class, 'updateUserDistricts']);
     Route::get('supplier/requests/districts', [UserController::class, 'getSupplierDistricts']);
@@ -91,10 +90,10 @@ Route::prefix('users')->group(function () {
     Route::get('{user}', [UC::class, 'show']);
 
     //Route::middleware('auth:sanctum')->group(function () {
-        Route::post('', [UC::class, 'store']);
-        Route::put('{user}', [UC::class, 'update']);
-        Route::patch('{user}', [UC::class, 'update']);
-        Route::delete('{user}', [UC::class, 'destroy']);
+    Route::post('', [UC::class, 'store']);
+    Route::put('{user}', [UC::class, 'update']);
+    Route::patch('{user}', [UC::class, 'update']);
+    Route::delete('{user}', [UC::class, 'destroy']);
     //});
 });
 
@@ -103,10 +102,10 @@ Route::prefix('profiles')->group(function () {
     Route::get('{profile}', [ProfileController::class, 'show']);
 
     //Route::middleware('auth:sanctum')->group(function () {
-        Route::post('', [ProfileController::class, 'store']);
-        Route::put('{profile}', [ProfileController::class, 'update']);
-        Route::patch('{profile}', [ProfileController::class, 'update']);
-        Route::delete('{profile}', [ProfileController::class, 'destroy']);
+    Route::post('', [ProfileController::class, 'store']);
+    Route::put('{profile}', [ProfileController::class, 'update']);
+    Route::patch('{profile}', [ProfileController::class, 'update']);
+    Route::delete('{profile}', [ProfileController::class, 'destroy']);
     //});
 });
 
@@ -115,11 +114,11 @@ Route::prefix('requests')->group(function () {
     Route::get('{request}', [RequestController::class, 'show']);
 
     //Route::middleware('auth:sanctum')->group(function () {
-        Route::post('', [RequestController::class, 'store']);
-        Route::put('{request}', [RequestController::class, 'update']);
-        Route::patch('{request}', [RequestController::class, 'update']);
-        Route::delete('{request}', [RequestController::class, 'destroy']);
-   //});
+    Route::post('', [RequestController::class, 'store']);
+    Route::put('{request}', [RequestController::class, 'update']);
+    Route::patch('{request}', [RequestController::class, 'update']);
+    Route::delete('{request}', [RequestController::class, 'destroy']);
+    //});
 });
 
 Route::prefix('categories')->group(function () {
@@ -127,10 +126,10 @@ Route::prefix('categories')->group(function () {
     Route::get('{category}', [CategoryController::class, 'show']);
 
     //Route::middleware('auth:sanctum')->group(function () {
-        Route::post('', [CategoryController::class, 'store']);
-        Route::put('{category}', [CategoryController::class, 'update']);
-        Route::patch('{category}', [CategoryController::class, 'update']);
-        Route::delete('{category}', [CategoryController::class, 'destroy']);
+    Route::post('', [CategoryController::class, 'store']);
+    Route::put('{category}', [CategoryController::class, 'update']);
+    Route::patch('{category}', [CategoryController::class, 'update']);
+    Route::delete('{category}', [CategoryController::class, 'destroy']);
     //});
 });
 
@@ -139,10 +138,10 @@ Route::prefix('subcategories')->group(function () {
     Route::get('{subcategory}', [SubCategoryController::class, 'show']);
 
     //Route::middleware('auth:sanctum')->group(function () {
-        Route::post('', [SubCategoryController::class, 'store']);
-        Route::put('{subcategory}', [SubCategoryController::class, 'update']);
-        Route::patch('{subcategory}', [SubCategoryController::class, 'update']);
-        Route::delete('{subcategory}', [SubCategoryController::class, 'destroy']);
+    Route::post('', [SubCategoryController::class, 'store']);
+    Route::put('{subcategory}', [SubCategoryController::class, 'update']);
+    Route::patch('{subcategory}', [SubCategoryController::class, 'update']);
+    Route::delete('{subcategory}', [SubCategoryController::class, 'destroy']);
     //});
 });
 
@@ -151,10 +150,10 @@ Route::prefix('districts')->group(function () {
     Route::get('{district}', [DistrictController::class, 'show']);
 
     //Route::middleware('auth:sanctum')->group(function () {
-        Route::post('', [DistrictController::class, 'store']);
-        Route::put('{district}', [DistrictController::class, 'update']);
-        Route::patch('{district}', [DistrictController::class, 'update']);
-        Route::delete('{district}', [DistrictController::class, 'destroy']);
+    Route::post('', [DistrictController::class, 'store']);
+    Route::put('{district}', [DistrictController::class, 'update']);
+    Route::patch('{district}', [DistrictController::class, 'update']);
+    Route::delete('{district}', [DistrictController::class, 'destroy']);
     //});
 });
 
@@ -163,10 +162,10 @@ Route::prefix('socials')->group(function () {
     Route::get('{social}', [SocialController::class, 'show']);
 
     //Route::middleware('auth:sanctum')->group(function () {
-        Route::post('', [SocialController::class, 'store']);
-        Route::put('{social}', [SocialController::class, 'update']);
-        Route::patch('{social}', [SocialController::class, 'update']);
-        Route::delete('{social}', [SocialController::class, 'destroy']);
+    Route::post('', [SocialController::class, 'store']);
+    Route::put('{social}', [SocialController::class, 'update']);
+    Route::patch('{social}', [SocialController::class, 'update']);
+    Route::delete('{social}', [SocialController::class, 'destroy']);
     //});
 });
 
@@ -175,9 +174,9 @@ Route::prefix('usersubcategories')->group(function () {
     Route::get('{user_id}/{subcategory_id}', [UserSubCategoryController::class, 'show']);
 
     //Route::middleware('auth:sanctum')->group(function () {
-        Route::post('', [UserSubCategoryController::class, 'store']);
-        Route::put('{user_id}/{subcategory_id}', [UserSubCategoryController::class, 'update']);
-        Route::patch('{user_id}/{subcategory_id}', [UserSubCategoryController::class, 'update']);
-        Route::delete('{user_id}/{subcategory_id}', [UserSubCategoryController::class, 'destroy']);
+    Route::post('', [UserSubCategoryController::class, 'store']);
+    Route::put('{user_id}/{subcategory_id}', [UserSubCategoryController::class, 'update']);
+    Route::patch('{user_id}/{subcategory_id}', [UserSubCategoryController::class, 'update']);
+    Route::delete('{user_id}/{subcategory_id}', [UserSubCategoryController::class, 'destroy']);
     //});
 });

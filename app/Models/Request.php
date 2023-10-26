@@ -13,10 +13,10 @@ class Request extends Model
     protected $fillable = [
         'supplier_id',
         'name',
-        'date',
         'email',
         'phone',
         'description',
+        'state'
     ];
     public function supplier()
     {

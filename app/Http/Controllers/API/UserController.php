@@ -105,20 +105,17 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        try
-        {
+        try {
             $user->delete();
             return response()->json(['message' => 'Deleted'], 205);
-        }
-        catch (Exception $exception)
-        {
+        } catch (Exception $exception) {
             return response()->json(['error' => $exception], 500);
         }
     }
 
 
     // Requested Services
-    public function getrequests()
+    public function getSupplierRequests()
     {
         $user = Auth::user();
 
@@ -136,7 +133,7 @@ class UserController extends Controller
 
         $requests = RequestModel::where('supplier_id', $user->profile->id)->get();
 
-        return response()->json(['requests' => $requests]);
+        return response()->json($requests, 200);
     }
 
 
