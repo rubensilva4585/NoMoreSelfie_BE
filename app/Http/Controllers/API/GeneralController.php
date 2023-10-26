@@ -54,7 +54,7 @@ class GeneralController extends Controller
         $request->validate([
             'supplier_id' => 'required|exists:profiles,id',
             'name' => 'required|string',
-            'email' => 'required_without:phone',
+            'email' => 'required_without:phone|string|email',
             'phone' => 'required_without:email|string|max:16',
             'description' => 'required|nullable|string',
         ]);

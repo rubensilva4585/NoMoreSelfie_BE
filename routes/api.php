@@ -60,6 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/admin/users/{user}', [AdminController::class, 'adminCheck']);
     Route::get('/admin/supplier/{id}/requests', [AdminController::class, 'getrequests']); //testar
+    Route::get('/admin/suppliers', [AdminController::class, 'getSuppliersList']);
 
     Route::get('/supplier/images', [UserController::class, 'getSupplierImages']);
     Route::post('/supplier/images', [UserController::class, 'setSupplierImages']);
