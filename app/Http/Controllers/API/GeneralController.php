@@ -54,9 +54,9 @@ class GeneralController extends Controller
         $request->validate([
             'supplier_id' => 'required|exists:profiles,id',
             'name' => 'required|string',
-            'email' => 'required_without:phone|email',
+            'email' => 'required_without:phone',
             'phone' => 'required_without:email|string|max:16',
-            'description' => 'nullable|string',
+            'description' => 'required|nullable|string',
         ]);
         $supplierProfile = \App\Models\Profile::where('id', $request->supplier_id)
             ->where('role', 'supplier')
@@ -69,7 +69,6 @@ class GeneralController extends Controller
         $newRequest = new \App\Models\Request([
             'supplier_id' => $request->supplier_id,
             'name' => $request->name,
-            'date' => now(),
             'email' => $request->email,
             'phone' => $request->phone,
             'description' => $request->description,

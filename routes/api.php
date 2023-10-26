@@ -44,7 +44,7 @@ Route::controller(GeneralController::class)->group(function () {
     Route::get('/supplier/{user_id}/services', 'getSupplierServices');
     Route::get('/supplier/{user_id}/images', 'getSupplierImages');
 
-    Route::post('general/supplier/storerequest', 'storeRequest');
+    Route::post('supplier/storerequest', 'storeRequest');
 
     Route::get('supplier/requests/districts/{user_id}', 'getSupplierDistricts');
 });
