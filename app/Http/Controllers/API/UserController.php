@@ -34,7 +34,7 @@ class UserController extends Controller
                 'bio' => $user->profile->bio,
                 'service_description' => $user->profile->service_description,
                 'avatar' => $user->profile->avatar,
-                'district' => $user->profile->district->only(['id', 'name']),
+                'district' => $user->profile->district ? $user->profile->district->only(['id', 'name']) : null,
                 'social' => [
                     'website' => optional($user->social)->website,
                     'facebook' => optional($user->social)->facebook,
@@ -69,7 +69,7 @@ class UserController extends Controller
             'bio' => $user->profile->bio,
             'service_description' => $user->profile->service_description,
             'avatar' => $user->profile->avatar,
-            'district' => $user->profile->district->only(['id', 'name']),
+            'district' => $user->profile->district ? $user->profile->district->only(['id', 'name']) : null,
             'social' => [
                 'website' => optional($user->social)->website,
                 'facebook' => optional($user->social)->facebook,
@@ -240,5 +240,21 @@ class UserController extends Controller
         }
 
         return response()->json(['message' => 'Nenhuma imagem de perfil para remover'], 404);
+    }
+
+    public function updateUserDistricts(Request $request)
+    {
+        $user = Auth::user();
+        $districtIds = $request->input('district_ids');
+
+        $user->districts()->sync($districtIds);
+
+        return response()->json(['message' => 'Distritos atualizados com sucesso']);
+    }
+
+    public function getSupplierDistricts()
+    {
+        $user = Auth::user();
+        return response()->json($user->districts, 200);
     }
 }

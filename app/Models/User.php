@@ -63,4 +63,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Image::class);
     }
+
+    public function districts()
+    {
+        return $this->belongsToMany(District::class);
+    }
 }

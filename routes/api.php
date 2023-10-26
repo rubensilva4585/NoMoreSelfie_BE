@@ -46,6 +46,8 @@ Route::controller(GeneralController::class)->group(function () {
     Route::get('/supplier/{user_id}/images', 'getSupplierImages');
 
     Route::post('general/supplier/storerequest', [GeneralController::class, 'storeRequest']);
+
+    Route::get('supplier/requests/districts/{user_id}', [GeneralController::class, 'getSupplierDistricts']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -65,6 +67,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/supplier/images/{imageId}', [UserController::class, 'removeSupplierImage']);
 
     Route::get('supplier/requests', [UserController::class, 'getrequests']);
+
+    Route::put('/updateuser/districts', [UserController::class, 'updateUserDistricts']);
+    Route::get('supplier/requests/districts', [UserController::class, 'getSupplierDistricts']);
 });
 
 

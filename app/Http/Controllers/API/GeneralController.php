@@ -98,7 +98,7 @@ class GeneralController extends Controller
             'bio' => $user->profile->bio,
             'service_description' => $user->profile->service_description,
             'avatar' => $user->profile->avatar,
-            'district' => $user->profile->district->only(['id', 'name']),
+            'district' => $user->profile->district ? $user->profile->district->only(['id', 'name']) : null,
             'social' => [
                 'website' => optional($user->social)->website,
                 'facebook' => optional($user->social)->facebook,
@@ -143,5 +143,16 @@ class GeneralController extends Controller
         }
 
         return response()->json($user->images, 200);
+    }
+
+    public function getSupplierDistricts($userId)
+    {
+        $user = User::find($userId);
+
+        if (!$user) {
+            return response()->json(['error' => 'Usuário não encontrado'], 404);
+        }
+
+        return response()->json($user->districts, 200);
     }
 }

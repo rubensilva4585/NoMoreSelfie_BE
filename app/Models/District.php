@@ -18,4 +18,9 @@ class District extends Model
     {
         return $this->hasMany(Profile::class, 'district_id');
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }
