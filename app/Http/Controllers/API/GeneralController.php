@@ -47,7 +47,7 @@ class GeneralController extends Controller
             ];
         });
 
-        return response()->json(['categories' => $formattedCategories]);
+        return response()->json($formattedCategories);
     }
 
     public function storeRequest(Request $request)
