@@ -22,6 +22,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'dob',
+        'phone',
     ];
 
     /**
@@ -67,5 +70,10 @@ class User extends Authenticatable
     public function districts()
     {
         return $this->belongsToMany(District::class);
+    }
+
+    public function request()
+    {
+        return $this->hasMany(Requests::class, 'request_id');
     }
 }

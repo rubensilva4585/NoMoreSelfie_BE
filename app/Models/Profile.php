@@ -14,13 +14,9 @@ class Profile extends Model
 
     protected $fillable = [
         'user_id',
-        'role',
         'district_id',
-        'dob',
-        'phone',
         'company',
         'nif',
-        'address',
         'bio',
         'service_description',
         'avatar',
@@ -28,20 +24,17 @@ class Profile extends Model
 
 
 
-    public function request()
-    {
-        return $this->hasMany(Requests::class, 'request_id');
-    }
+
 
     public function district()
     {
         return $this->belongsTo(District::class, 'district_id');
     }
 
-    public function social()
-    {
-        return $this->hasOne(Social::class);
-    }
+    // public function social()
+    // {
+    //     return $this->hasOne(Social::class);
+    // }
 
     public function user()
     {

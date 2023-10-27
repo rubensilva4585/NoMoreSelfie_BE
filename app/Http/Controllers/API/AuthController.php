@@ -35,17 +35,17 @@ class AuthController extends Controller
             $userData = [
                 'id' => $user->id,
                 'name' => $user->name,
-                'role' => $user->profile->role,
+                'role' => $user->role,
                 'email' => $user->email,
-                'phone' => $user->profile->phone,
-                'company' => $user->profile->company,
-                'nif' => $user->profile->nif,
-                'dob' => $user->profile->dob,
-                'address' => $user->profile->address,
-                'bio' => $user->profile->bio,
-                'service_description' => $user->profile->service_description,
-                'avatar' => $user->profile->avatar,
-                'district' => $user->profile->district ? $user->profile->district->only(['id', 'name']) : null,
+                'phone' => $user->phone,
+                'dob' => $user->dob,
+                'company' => optional($user->profile)->company,
+                'nif' => optional($user->profile)->nif,
+                'address' => optional($user->profile)->address,
+                'bio' => optional($user->profile)->bio,
+                'service_description' => optional($user->profile)->service_description,
+                'avatar' => optional($user->profile)->avatar,
+                'district' => optional($user->profile)->district ? optional($user->profile)->district->only(['id', 'name']) : null,
                 'social' => [
                     'website' => optional($user->social)->website,
                     'facebook' => optional($user->social)->facebook,
@@ -94,25 +94,23 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-        ]);
-
-        if($request->role == 'supplier')
-            $user->social()->create();
-
-        $profileData = [
             'role' => $request->input('role', 'user'),
-            'user_id' => $user->id,
-            'district_id' => $request->input('district_id', null),
             'dob' => $request->input('dob', null),
             'phone' => $request->input('phone', null),
-            'company' => $request->input('company', null),
-            'nif' => $request->input('nif', null),
-            'address' => $request->input('address', null),
-            'bio' => $request->input('bio', null),
-        ];
+        ]);
 
-        $user->profile()->create($profileData);
-
+        if ($request->role == 'supplier') {
+            $user->social()->create();
+            $profileData = [
+                'user_id' => $user->id,
+                'district_id' => $request->input('district_id', null),
+                'company' => $request->input('company', null),
+                'nif' => $request->input('nif', null),
+                'address' => $request->input('address', null),
+                'bio' => $request->input('bio', null),
+            ];
+            $user->profile()->create($profileData);
+        }
 
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
@@ -122,17 +120,17 @@ class AuthController extends Controller
             $userData = [
                 'id' => $user->id,
                 'name' => $user->name,
-                'role' => $user->profile->role,
+                'role' => $user->role,
                 'email' => $user->email,
-                'phone' => $user->profile->phone,
-                'company' => $user->profile->company,
-                'nif' => $user->profile->nif,
-                'dob' => $user->profile->dob,
-                'address' => $user->profile->address,
-                'bio' => $user->profile->bio,
-                'service_description' => $user->profile->service_description,
-                'avatar' => $user->profile->avatar,
-                'district' => $user->profile->district ? $user->profile->district->only(['id', 'name']) : null,
+                'phone' => $user->phone,
+                'dob' => $user->dob,
+                'company' => optional($user->profile)->company,
+                'nif' => optional($user->profile)->nif,
+                'address' => optional($user->profile)->address,
+                'bio' => optional($user->profile)->bio,
+                'service_description' => optional($user->profile)->service_description,
+                'avatar' => optional($user->profile)->avatar,
+                'district' => optional($user->profile)->district ? optional($user->profile)->district->only(['id', 'name']) : null,
                 'social' => [
                     'website' => optional($user->social)->website,
                     'facebook' => optional($user->social)->facebook,

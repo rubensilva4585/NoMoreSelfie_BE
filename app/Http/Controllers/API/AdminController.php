@@ -17,7 +17,7 @@ class AdminController extends Controller
 
         $user = Auth::user();
 
-        if ($user && $user->profile && $user->profile->role == 'admin') {
+        if ($user && $user->role == 'admin') {
 
             $user->update($request->all());
             return response()->json($user, 200);
@@ -28,7 +28,7 @@ class AdminController extends Controller
 
     public function getrequests($supplierId)
     {
-        if (Auth::user()->profile->role !== 'admin') {
+        if (Auth::user()->role !== 'admin') {
             return response()->json(['error' => 'Only Admin can access.'], 403);
         }
 
@@ -39,12 +39,13 @@ class AdminController extends Controller
 
     public function getSuppliersList()
     {
-        if (Auth::user()->profile->role !== 'admin') {
+        if (Auth::user()->role !== 'admin') {
             return response()->json(['error' => 'Only Admin can access.'], 403);
         }
 
-        $suppliers = User::join('profiles', 'users.id', '=', 'profiles.user_id')
-            ->where('profiles.role', 'supplier')
+        $suppliers = User::where('role', 'supplier')
+            ->join('profiles', 'users.id', '=', 'profiles.user_id')
+            ->select('users.*', 'profiles.*')
             ->get();
 
         return response()->json($suppliers);
@@ -52,12 +53,12 @@ class AdminController extends Controller
 
     public function validateSupplier(Request $request, $supplierId)
     {
-        if (Auth::user()->profile->role !== 'admin') {
+        if (Auth::user()->role !== 'admin') {
             return response()->json(['error' => 'Only Admin can access.'], 403);
         }
 
         $supplier = User::findOrFail($supplierId);
-        if ($supplier->profile->role !== 'supplier') {
+        if ($supplier->role !== 'supplier') {
             return response()->json(['error' => 'Esse user não é fornecedor'], 403);
         }
 

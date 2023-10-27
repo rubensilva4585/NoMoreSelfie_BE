@@ -20,6 +20,6 @@ class Request extends Model
     ];
     public function supplier()
     {
-        return $this->belongsTo(Profile::class, 'supplier_id');
+        return $this->belongsTo(User::class, 'supplier_id');
     }
 }

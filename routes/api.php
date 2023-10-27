@@ -49,6 +49,8 @@ Route::controller(GeneralController::class)->group(function () {
     Route::get('supplier/requests/districts/{user_id}', 'getSupplierDistricts');
 
     Route::get('suppliers/verified', 'getValidatedSuppliersList');
+
+    Route::get('/suppliers/valid', 'getValidSuppliersList');
 });
 
 Route::middleware('auth:sanctum')->group(function () {

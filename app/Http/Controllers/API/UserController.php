@@ -24,17 +24,17 @@ class UserController extends Controller
             return response()->json([
                 'id' => $user->id,
                 'name' => $user->name,
-                'role' => $user->profile->role,
+                'role' => $user->role,
                 'email' => $user->email,
-                'phone' => $user->profile->phone,
-                'company' => $user->profile->company,
-                'nif' => $user->profile->nif,
-                'dob' => $user->profile->dob,
-                'address' => $user->profile->address,
-                'bio' => $user->profile->bio,
-                'service_description' => $user->profile->service_description,
-                'avatar' => $user->profile->avatar,
-                'district' => $user->profile->district ? $user->profile->district->only(['id', 'name']) : null,
+                'phone' => $user->phone,
+                'dob' => $user->dob,
+                'company' => optional($user->profile)->company,
+                'nif' => optional($user->profile)->nif,
+                'address' => optional($user->profile)->address,
+                'bio' => optional($user->profile)->bio,
+                'service_description' => optional($user->profile)->service_description,
+                'avatar' => optional($user->profile)->avatar,
+                'district' => optional($user->profile)->district ? optional($user->profile)->district->only(['id', 'name']) : null,
                 'social' => [
                     'website' => optional($user->social)->website,
                     'facebook' => optional($user->social)->facebook,
@@ -52,24 +52,26 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        $user->update($request->only(['name', 'email']));
-        $user->profile()->update($request->only(['phone', 'company', 'nif', 'dob', 'address', 'bio', 'service_description', 'district_id']));
-        $user->social()->update($request->only(['website', 'facebook', 'instagram', 'linkedin', 'pinterest']));
+        $user->update($request->only(['name', 'email', 'phone', 'dob']));
+        if ($user->role == 'supplier') {
+            $user->profile()->update($request->only(['company', 'nif', 'bio', 'service_description', 'district_id']));
+            $user->social()->update($request->only(['website', 'facebook', 'instagram', 'linkedin', 'pinterest']));
+        }
 
         $userData = [
             'id' => $user->id,
             'name' => $user->name,
-            'role' => $user->profile->role,
+            'role' => $user->role,
             'email' => $user->email,
-            'phone' => $user->profile->phone,
-            'company' => $user->profile->company,
-            'nif' => $user->profile->nif,
-            'dob' => $user->profile->dob,
-            'address' => $user->profile->address,
-            'bio' => $user->profile->bio,
-            'service_description' => $user->profile->service_description,
-            'avatar' => $user->profile->avatar,
-            'district' => $user->profile->district ? $user->profile->district->only(['id', 'name']) : null,
+            'phone' => $user->phone,
+            'dob' => $user->dob,
+            'company' => optional($user->profile)->company,
+            'nif' => optional($user->profile)->nif,
+            'address' => optional($user->profile)->address,
+            'bio' => optional($user->profile)->bio,
+            'service_description' => optional($user->profile)->service_description,
+            'avatar' => optional($user->profile)->avatar,
+            'district' => optional($user->profile)->district ? optional($user->profile)->district->only(['id', 'name']) : null,
             'social' => [
                 'website' => optional($user->social)->website,
                 'facebook' => optional($user->social)->facebook,
@@ -123,11 +125,7 @@ class UserController extends Controller
             return response()->json(['error' => 'Not authenticated user.'], 401);
         }
 
-        if (!$user->profile) {
-            return response()->json(['error' => 'Profile doesnt exist.'], 403);
-        }
-
-        if ($user->profile->role !== 'supplier') {
+        if ($user->role !== 'supplier') {
             return response()->json(['error' => 'Only suppliers can access.'], 403);
         }
 
@@ -186,9 +184,6 @@ class UserController extends Controller
     public function getSupplierImages()
     {
         $user = Auth::user();
-        // if (!$user) {
-        //     return response()->json(['error' => 'Usuário não encontrado'], 404);
-        // }
         return response()->json($user->images, 200);
     }
 
@@ -199,10 +194,6 @@ class UserController extends Controller
         $user = Auth::user();
 
         if ($request->hasFile('avatar')) {
-            // $request->validate([
-            //     'avatar' => 'image|mimes:jpeg,png,jpg|max:2048', // Exemplo de regras de validação
-            // ]);
-
             $publicStorage = Storage::disk('public');
 
             if ($user->profile->avatar) {
