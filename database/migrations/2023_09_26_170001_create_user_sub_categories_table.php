@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('user_sub_categories', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('subcategory_id');
-            $table->decimal('startPrice', 5, 2);
-            $table->decimal('endPrice', 5, 2);
+            $table->decimal('startPrice', 8, 2);
+            $table->decimal('endPrice', 8, 2);
             $table->timestamps();
             $table->softDeletes();
 
@@ -23,7 +23,6 @@ return new class extends Migration
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('subcategory_id')->references('id')->on('sub_categories');
-
         });
     }
 

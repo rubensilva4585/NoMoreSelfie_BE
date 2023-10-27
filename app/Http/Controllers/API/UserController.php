@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Image;
 use App\Models\UserSubCategory;
 use Storage;
@@ -129,7 +130,7 @@ class UserController extends Controller
             return response()->json(['error' => 'Only suppliers can access.'], 403);
         }
 
-        $requests = RequestModel::where('supplier_id', $user->profile->id)->get();
+        $requests = RequestModel::where('supplier_id', $user->id)->get();
 
         return response()->json($requests, 200);
     }
@@ -244,5 +245,72 @@ class UserController extends Controller
     {
         $user = Auth::user();
         return response()->json($user->districts, 200);
+    }
+
+    public function getSupplierServices()
+    {
+        $user = Auth::user();
+
+        $services = $user->userSubCategory->groupBy(function ($service) {
+            return $service->subCategory->category->id;
+        })->map(function ($subcategories, $categoryId) {
+            $category = Category::find($categoryId);
+            return [
+                'id' => $category->id,
+                'name' => $category->name,
+                'inPerson' => $category->inPerson,
+                'subcategories' => $subcategories->map(function ($subcategory) {
+                    return [
+                        'id' => $subcategory->subCategory->id,
+                        'name' => $subcategory->subCategory->name,
+                        'startPrice' => $subcategory->startPrice,
+                        'endPrice' => $subcategory->endPrice,
+                    ];
+                })
+            ];
+        });
+
+        return response()->json($services->values());
+    }
+
+    public function updateSupplierServices(Request $request)
+    {
+        $user = Auth::user();
+
+        // $services = $request->input('services');
+        $data = $request->all();
+
+        // Iterar sobre as categorias no corpo da solicitação
+        foreach ($data as $category) {
+            $categoryId = $category['id'];
+
+            // Iterar sobre as subcategorias na categoria
+            foreach ($category['subcategories'] as $subcategory) {
+                $subcategoryId = $subcategory['id'];
+
+                // Verificar se já existe uma entrada para a combinação user_id e subcategory_id
+                $userSubCategory = UserSubCategory::where('user_id', $user->id)
+                    ->where('subcategory_id', $subcategoryId)
+                    ->first();
+
+                if ($userSubCategory) {
+                    return response()->json(['message' => 'entrou no if', 'userSubCategory' => $userSubCategory, 'subcategory' => $subcategory, 'user' => $user, 'subcategory_id' => $subcategoryId]);
+                    // // Se a entrada já existe, atualize os campos startPrice e endPrice
+                    $userSubCategory->startPrice = $subcategory['startPrice'];
+                    $userSubCategory->endPrice = $subcategory['endPrice'];
+                    $userSubCategory->save();
+                } else {
+                    // Se a entrada não existe, crie uma nova
+                    UserSubCategory::create([
+                        'user_id' => $user->id,
+                        'subcategory_id' => $subcategoryId,
+                        'startPrice' => $subcategory['startPrice'],
+                        'endPrice' => $subcategory['endPrice'],
+                    ]);
+                }
+            }
+        }
+
+        return response()->json(['message' => 'Dados atualizados com sucesso']);
     }
 }

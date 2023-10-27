@@ -75,6 +75,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::put('/updateuser/districts', [UserController::class, 'updateUserDistricts']);
     Route::get('supplier/requests/districts', [UserController::class, 'getSupplierDistricts']);
+
+    Route::get('/supplier/services', [UserController::class, 'getSupplierServices']);
+    Route::put('/supplier/services', [UserController::class, 'updateSupplierServices']);
 });
 
 
