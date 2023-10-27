@@ -26,6 +26,8 @@ class Profile extends Model
         'avatar',
     ];
 
+
+
     public function request()
     {
         return $this->hasMany(Requests::class, 'request_id');

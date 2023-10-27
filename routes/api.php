@@ -47,6 +47,8 @@ Route::controller(GeneralController::class)->group(function () {
     Route::post('supplier/storerequest', 'storeRequest');
 
     Route::get('supplier/requests/districts/{user_id}', 'getSupplierDistricts');
+
+    Route::get('suppliers/verified', 'getValidatedSuppliersList');
 });
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -61,6 +63,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/admin/users/{user}', [AdminController::class, 'adminCheck']);
     Route::get('/admin/supplier/{id}/requests', [AdminController::class, 'getrequests']); //testar
     Route::get('/admin/suppliers', [AdminController::class, 'getSuppliersList']);
+    Route::post('/admin/supplier/validate/{supplierId}', [AdminController::class, 'validateSupplier']);
 
     Route::get('/supplier/images', [UserController::class, 'getSupplierImages']);
     Route::post('/supplier/images', [UserController::class, 'setSupplierImages']);

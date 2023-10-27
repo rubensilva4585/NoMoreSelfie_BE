@@ -49,4 +49,20 @@ class AdminController extends Controller
 
         return response()->json($suppliers);
     }
+
+    public function validateSupplier(Request $request, $supplierId)
+    {
+        if (Auth::user()->profile->role !== 'admin') {
+            return response()->json(['error' => 'Only Admin can access.'], 403);
+        }
+
+        $supplier = User::findOrFail($supplierId);
+        if ($supplier->profile->role !== 'supplier') {
+            return response()->json(['error' => 'Esse user não é fornecedor'], 403);
+        }
+
+        $supplier->profile()->update(['verified' => !$supplier->profile->verified]);
+
+        return response()->json(!$supplier->profile->verified);
+    }
 }
