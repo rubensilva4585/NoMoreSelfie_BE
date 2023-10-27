@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -75,5 +76,15 @@ class User extends Authenticatable
     public function request()
     {
         return $this->hasMany(Requests::class, 'request_id');
+    }
+
+    public function favoriteSuppliers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'favorites', 'client_id', 'supplier_id')->withTimestamps();
+    }
+
+    public function favoriteClients(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'favorites', 'supplier_id', 'client_id')->withTimestamps();
     }
 }

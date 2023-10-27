@@ -313,4 +313,31 @@ class UserController extends Controller
 
         return response()->json(['message' => 'Dados atualizados com sucesso']);
     }
+
+    public function addUserFavorite(Request $request)
+    {
+        $user = Auth::user();
+        $supplierId = $request->input('supplier_id');
+
+        $user->favoriteSuppliers()->attach($supplierId);
+
+        return response()->json(['message' => 'Favorito adicionado com sucesso']);
+    }
+
+    public function removeUserFavorite(Request $request)
+    {
+        $user = Auth::user();
+        $supplierId = $request->input('supplier_id');
+
+        $user->favoriteSuppliers()->detach($supplierId);
+
+        return response()->json(['message' => 'Favorito removido com sucesso']);
+    }
+
+    public function getUserFavorites()
+    {
+        $user = Auth::user();
+        $favoriteSuppliers = $user->favoriteSuppliers;
+        return response()->json($favoriteSuppliers);
+    }
 }

@@ -78,6 +78,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/supplier/services', [UserController::class, 'getSupplierServices']);
     Route::put('/supplier/services', [UserController::class, 'updateSupplierServices']);
+
+    Route::get('/favorites', [UserController::class, 'getUserFavorites']);
+    Route::post('/favorites/add/', [UserController::class, 'addUserFavorite']);
+    Route::post('/favorites/remove/', [UserController::class, 'removeUserFavorite']);
 });
 
 
