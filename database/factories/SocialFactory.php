@@ -35,7 +35,6 @@ class SocialFactory extends Factory
                 'pinterest' => "pinterest$user->id",
             ];
         } else {
-            // Handle the case where there are not enough unique suppliers users.
             return [];
         }
     }

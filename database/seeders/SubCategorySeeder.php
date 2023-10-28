@@ -17,7 +17,7 @@ class SubCategorySeeder extends Seeder
             'Casamentos' => [
                 'Pedido de Casamento',
                 'Pré Casamento',
-                'Pós Csamento',
+                'Pós Casamento',
                 'Casamento',
             ],
             'Bebés' => [
@@ -25,7 +25,7 @@ class SubCategorySeeder extends Seeder
                 'Ensaio de Gravidez',
                 'Chá Revelação',
                 'Baby Shower',
-                'Álbum de Bebê',
+                'Álbum de Bebé',
                 'Batizado',
             ],
             'Edição' => [
@@ -64,7 +64,7 @@ class SubCategorySeeder extends Seeder
             'Turismo' => [
                 'Fotografia de Destinos',
                 'Vídeo de Viagens',
-                'Visitas Guiadas',
+                'Fotografia de Natureza',
             ],
             'Moda' => [
                 'Ensaio de Moda',
@@ -88,7 +88,7 @@ class SubCategorySeeder extends Seeder
                 'Vídeo de Treino',
                 'Desportos Radicais',
             ],
-        ];        
+        ];
 
         foreach ($categoryMappings as $categoryName => $subcategories) {
             $categoryId = DB::table('categories')->where('name', $categoryName)->value('id');
