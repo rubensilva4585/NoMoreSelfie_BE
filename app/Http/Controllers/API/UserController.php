@@ -36,6 +36,7 @@ class UserController extends Controller
                 'service_description' => optional($user->profile)->service_description,
                 'avatar' => optional($user->profile)->avatar,
                 'district' => optional($user->profile)->district ? optional($user->profile)->district->only(['id', 'name']) : null,
+                'isVerified' => optional($user->profile)->verified,
                 'social' => [
                     'website' => optional($user->social)->website,
                     'facebook' => optional($user->social)->facebook,
@@ -73,6 +74,7 @@ class UserController extends Controller
             'service_description' => optional($user->profile)->service_description,
             'avatar' => optional($user->profile)->avatar,
             'district' => optional($user->profile)->district ? optional($user->profile)->district->only(['id', 'name']) : null,
+            'isVerified' => optional($user->profile)->verified,
             'social' => [
                 'website' => optional($user->social)->website,
                 'facebook' => optional($user->social)->facebook,
@@ -276,40 +278,33 @@ class UserController extends Controller
     public function updateSupplierServices(Request $request)
     {
         $user = Auth::user();
-
-        // $services = $request->input('services');
         $data = $request->all();
 
-        // Iterar sobre as categorias no corpo da solicitação
-        foreach ($data as $category) {
-            $categoryId = $category['id'];
+        $userSubCategories = UserSubCategory::where('user_id', $user->id)->get();
+        $userSubCategoryIds = $userSubCategories->pluck('subcategory_id')->toArray();
 
-            // Iterar sobre as subcategorias na categoria
+        foreach ($data as $category) {
             foreach ($category['subcategories'] as $subcategory) {
                 $subcategoryId = $subcategory['id'];
 
-                // Verificar se já existe uma entrada para a combinação user_id e subcategory_id
-                $userSubCategory = UserSubCategory::where('user_id', $user->id)
-                    ->where('subcategory_id', $subcategoryId)
-                    ->first();
-
-                if ($userSubCategory) {
-                    return response()->json(['message' => 'entrou no if', 'userSubCategory' => $userSubCategory, 'subcategory' => $subcategory, 'user' => $user, 'subcategory_id' => $subcategoryId]);
-                    // // Se a entrada já existe, atualize os campos startPrice e endPrice
-                    $userSubCategory->startPrice = $subcategory['startPrice'];
-                    $userSubCategory->endPrice = $subcategory['endPrice'];
-                    $userSubCategory->save();
-                } else {
-                    // Se a entrada não existe, crie uma nova
-                    UserSubCategory::create([
+                UserSubCategory::updateOrInsert(
+                    [
                         'user_id' => $user->id,
                         'subcategory_id' => $subcategoryId,
+                    ],
+                    [
                         'startPrice' => $subcategory['startPrice'],
                         'endPrice' => $subcategory['endPrice'],
-                    ]);
+                    ]
+                );
+                if (($key = array_search($subcategoryId, $userSubCategoryIds)) !== false) {
+                    unset($userSubCategoryIds[$key]);
                 }
             }
         }
+        UserSubCategory::where('user_id', $user->id)
+            ->whereIn('subcategory_id', $userSubCategoryIds)
+            ->delete();
 
         return response()->json(['message' => 'Dados atualizados com sucesso']);
     }

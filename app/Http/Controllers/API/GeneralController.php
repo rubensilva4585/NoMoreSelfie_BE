@@ -59,14 +59,6 @@ class GeneralController extends Controller
             'phone' => 'required_without:email|string|max:16',
             'description' => 'required|nullable|string',
         ]);
-        //$user = User::findOrFail($request->supplier_id);
-        // $supplierProfile = \App\Models\User::where('id', $request->supplier_id)
-        //     ->where('role', 'supplier')
-        //     ->first();
-
-        // if (!$supplierProfile) {
-        //     return response()->json(['error' => 'Not Supplier Profile.'], 400);
-        // }
 
         $newRequest = new \App\Models\Request([
             'supplier_id' => $request->supplier_id,
@@ -100,6 +92,7 @@ class GeneralController extends Controller
             'service_description' => optional($user->profile)->service_description,
             'avatar' => optional($user->profile)->avatar,
             'district' => optional($user->profile)->district ? optional($user->profile)->district->only(['id', 'name']) : null,
+            'isVerified' => optional($user->profile)->verified,
             'social' => [
                 'website' => optional($user->social)->website,
                 'facebook' => optional($user->social)->facebook,
@@ -233,15 +226,3 @@ class GeneralController extends Controller
         return response()->json($responseData);
     }
 }
-
-            // ->whereExists(function ($query) {
-            //     $query->select(DB::raw(1))
-            //         ->from('sub_categories')
-            //         ->whereRaw('sub_categories.user_id = users.id')
-            //         ->whereExists(function ($query) {
-            //             $query->select(DB::raw(1))
-            //                 ->from('categories')
-            //                 ->whereRaw('categories.id = sub_categories.category_id')
-            //                 ->where('categories.inPerson', true);
-            //         });
-            // })
